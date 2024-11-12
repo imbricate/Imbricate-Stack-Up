@@ -1460,8 +1460,8 @@ __metadata:
 
 "@imbricate/core@file:../Imbricate/app::locator=%40imbricate%2Fstack-up%40workspace%3A.":
   version: 3.0.0
-  resolution: "@imbricate/core@file:../Imbricate/app#../Imbricate/app::hash=22c47a&locator=%40imbricate%2Fstack-up%40workspace%3A."
-  checksum: 10c0/27ef0596b2e2dd8c27b31a1aeabc8e974c4c5f529eadb701cb908e8d6a4cc688aecfffe112191d3494898d5aeabd3986656bda9026c1eb6dc22c9fcfb39051d5
+  resolution: "@imbricate/core@file:../Imbricate/app#../Imbricate/app::hash=2f4275&locator=%40imbricate%2Fstack-up%40workspace%3A."
+  checksum: 10c0/1cef0cbbf91ca179d01999c76375ab1952c589c16ccbf407790b1c685e33385df6b2ef38cb3bf4b5179de201207156202816f7435d8c762ceed0cfd5556760f5
   languageName: node
   linkType: hard
 

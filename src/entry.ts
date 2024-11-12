@@ -3,14 +3,21 @@
  * @description Entry
  */
 
-import { IImbricateOrigin, loadImbricateOriginsFromPersistance } from "@imbricate/core";
+import { IImbricateOrigin, loadImbricateOriginFromPersistanceOrigin } from "@imbricate/core";
 import { StackUpConfig } from "./definition";
 
 export const createStackUpServer = async (config: StackUpConfig): Promise<void> => {
 
-    const origins: IImbricateOrigin[] = await loadImbricateOriginsFromPersistance({
-        origins: config.originPersistencies,
-    });
+    const originMap: Map<string, IImbricateOrigin> = new Map();
 
-    console.log(origins);
+    for (const origin of config.originPersistencies) {
+
+        const originInstance: IImbricateOrigin | null = await loadImbricateOriginFromPersistanceOrigin(origin);
+
+        if (originInstance) {
+            originMap.set(origin.originName, originInstance);
+        }
+    }
+
+    console.log(originMap);
 };

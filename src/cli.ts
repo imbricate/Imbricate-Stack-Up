@@ -33,16 +33,14 @@ export const executeWithConfiguration = async (
                 showGlobalOptions: true,
             })
             .description(getApplicationDescription())
-            .option('-d, --debug', 'output extra debugging')
-            .argument('<config-file>', 'configurations file path')
+            .option("-d, --debug", "output extra debugging")
+            .argument("<config-file>", "configurations file path")
             .action(async (configFile: string) => {
 
                 const rawConfig = await readTextFile(configFile);
                 const config: StackUpConfig = JSON.parse(rawConfig);
 
                 await createStackUpServer(config);
-
-                console.log(config);
             });
 
         await program.parseAsync(commands);

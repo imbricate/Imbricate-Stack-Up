@@ -1,0 +1,55 @@
+{
+  "name": "@imbricate/stack-up",
+  "packageManager": "yarn@4.5.1",
+  "version": "3.0.0",
+  "description": "File System Origin Implementation for Imbricate",
+  "bin": "cli",
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "lint": "eslint src",
+    "clean": "rm -rf app",
+    "build": "tsc --project typescript/tsconfig.build.json",
+    "license": "sdb license",
+    "replace-version": "ts-node --project typescript/tsconfig.script.json scripts/replace-version.ts",
+    "release": "yarn lint && yarn test && yarn license && yarn build && yarn replace-version",
+    "chmod-link": "chmod +x app/i7e-bin && chmod +x app/imbricate-bin",
+    "link": "yarn release && cd app && npm link && chmod +x i7e-bin && chmod +x imbricate-bin",
+    "relink": "yarn build && yarn replace-version && yarn chmod-link",
+    "publish-dry-run": "yarn release && sdb --only publish-dry-run",
+    "publish": "yarn release && sdb --only publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Imbricate/Imbricate-Stack-Up.git"
+  },
+  "keywords": [
+    "imbricate",
+    "note",
+    "file-system"
+  ],
+  "author": "WMXPY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Imbricate/Imbricate-Stack-Up/issues"
+  },
+  "homepage": "https://imbricate.io",
+  "dependencies": {
+    "@imbricate/core": "^3.0.0",
+    "@sudoo/io": "^1.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "babel-jest": "^29.7.0",
+    "eslint": "^9.14.0",
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}

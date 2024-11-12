@@ -3,7 +3,6 @@
   "packageManager": "yarn@4.5.1",
   "version": "3.0.0",
   "description": "File System Origin Implementation for Imbricate",
-  "bin": "cli",
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",

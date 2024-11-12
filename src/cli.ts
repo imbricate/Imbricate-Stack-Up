@@ -6,6 +6,8 @@
 import { IImbricateOrigin } from "@imbricate/core";
 import { readTextFile } from "@sudoo/io";
 import { Command } from "commander";
+import { StackUpConfig } from "./definition";
+import { createStackUpServer } from "./entry";
 import { getApplicationDescription } from "./util/description";
 
 export const execute = async (): Promise<void> => {
@@ -26,7 +28,7 @@ export const executeWithConfiguration = async (
 
         program
             .version("<current-version>")
-            .name("imbricate stack up")
+            .name("stack-up")
             .configureHelp({
                 showGlobalOptions: true,
             })
@@ -36,7 +38,9 @@ export const executeWithConfiguration = async (
             .action(async (configFile: string) => {
 
                 const rawConfig = await readTextFile(configFile);
-                const config: any = JSON.parse(rawConfig);
+                const config: StackUpConfig = JSON.parse(rawConfig);
+
+                await createStackUpServer(config);
 
                 console.log(config);
             });
@@ -54,3 +58,5 @@ export const executeWithConfiguration = async (
         }
     }
 };
+
+execute();

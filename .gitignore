@@ -17,6 +17,7 @@ node_modules
 
 # Test
 origin-test
+mock
 
 # Build
 app

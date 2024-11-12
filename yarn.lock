@@ -1458,10 +1458,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@imbricate/core@npm:^3.0.0":
+"@imbricate/core@file:../Imbricate/app::locator=%40imbricate%2Fstack-up%40workspace%3A.":
   version: 3.0.0
-  resolution: "@imbricate/core@npm:3.0.0"
-  checksum: 10c0/1569ba65ebe52745c9d143e68960c43a544763fdba825c19c4d926ff6c6a9d6878c942c43fcc077ac51710a91a7769b36158b2b6442faa20dccdf1fbe7fa173a
+  resolution: "@imbricate/core@file:../Imbricate/app#../Imbricate/app::hash=22c47a&locator=%40imbricate%2Fstack-up%40workspace%3A."
+  checksum: 10c0/27ef0596b2e2dd8c27b31a1aeabc8e974c4c5f529eadb701cb908e8d6a4cc688aecfffe112191d3494898d5aeabd3986656bda9026c1eb6dc22c9fcfb39051d5
   languageName: node
   linkType: hard
 
@@ -1472,7 +1472,7 @@ __metadata:
     "@babel/core": "npm:^7.26.0"
     "@babel/preset-env": "npm:^7.26.0"
     "@babel/preset-typescript": "npm:^7.26.0"
-    "@imbricate/core": "npm:^3.0.0"
+    "@imbricate/core": ../Imbricate/app
     "@sudoo/io": "npm:^1.8.0"
     "@types/express": "npm:^5.0.0"
     "@types/jest": "npm:^29.5.14"

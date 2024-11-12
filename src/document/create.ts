@@ -36,9 +36,7 @@ export const attachDocumentCreateRoute = async (
             return;
         }
 
-        const document: IImbricateDocument = await database.createDocument({
-            properties: body.properties,
-        });
+        const document: IImbricateDocument = await database.createDocument(body.properties);
 
         res.send({
             documentUniqueIdentifier: document.uniqueIdentifier,

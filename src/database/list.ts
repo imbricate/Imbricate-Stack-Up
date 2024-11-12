@@ -24,7 +24,7 @@ export const attachDatabaseListRoute = async (
             return;
         }
 
-        const databases: IImbricateDatabase[] = await origin.getDatabaseManager().getDatabases();
+        const databases: IImbricateDatabase[] = await origin.getDatabaseManager().listDatabases();
 
         res.send(databases.map((database: IImbricateDatabase) => {
             return {

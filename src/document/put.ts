@@ -1,22 +1,24 @@
 /**
  * @author WMXPY
  * @namespace Document
- * @description Get
+ * @description Put
  */
 
 import { DocumentProperties, IImbricateDatabase, IImbricateDocument, IImbricateOrigin } from "@imbricate/core";
 import express from "express";
 
-export const attachDocumentGetRoute = async (
+export const attachDocumentPutRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
 ): Promise<void> => {
 
-    application.get("/:origin/database/:database/document/:document", async (req, res) => {
+    application.put("/:origin/database/:database/document/:document", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
         const databaseUniqueIdentifier: string = req.params.database;
         const documentUniqueIdentifier: string = req.params.document;
+
+        const body: any = req.body;
 
         const origin: IImbricateOrigin | null =
             originMap.get(originUniqueIdentifier) ?? null;
@@ -44,9 +46,11 @@ export const attachDocumentGetRoute = async (
             return;
         }
 
-        const properties: DocumentProperties = await document.getProperties();
+        await document.putProperties(
+            body.properties,
+        );
 
-        console.log(properties);
+        const properties: DocumentProperties = await document.getProperties();
 
         res.send({
             properties,

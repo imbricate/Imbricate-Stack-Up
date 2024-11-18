@@ -12,7 +12,7 @@ export const attachDatabaseListRoute = async (
     originMap: Map<string, IImbricateOrigin>,
 ): Promise<void> => {
 
-    application.get("/:origin/database/list", async (req, res) => {
+    application.get("/:origin/list-database", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
 
@@ -26,11 +26,14 @@ export const attachDatabaseListRoute = async (
 
         const databases: IImbricateDatabase[] = await origin.getDatabaseManager().listDatabases();
 
-        res.send(databases.map((database: IImbricateDatabase) => {
-            return {
-                databaseUniqueIdentifier: database.uniqueIdentifier,
-                databaseName: database.databaseName,
-            };
-        }));
+        res.send({
+            databases: databases.map((database: IImbricateDatabase) => {
+                return {
+                    databaseUniqueIdentifier: database.uniqueIdentifier,
+                    databaseName: database.databaseName,
+                    databaseSchema: database.schema,
+                };
+            }),
+        });
     });
 };

@@ -3,9 +3,9 @@
  * @description Definition
  */
 
-import { ImbricateOriginPersistanceOrigin } from "@imbricate/core";
+import { ImbricateOriginPersistenceOrigin } from "@imbricate/core";
 
 export type StackUpConfig = {
 
-    readonly originPersistencies: ImbricateOriginPersistanceOrigin[];
+    readonly originPersistencies: ImbricateOriginPersistenceOrigin[];
 };

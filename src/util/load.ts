@@ -4,7 +4,7 @@
  * @description Loader
  */
 
-import { IImbricateOrigin, loadImbricateOriginFromPersistanceOrigin } from "@imbricate/core";
+import { IImbricateOrigin, loadImbricateOriginFromPersistenceOrigin } from "@imbricate/core";
 import { StackUpConfig } from "../definition";
 
 export const loadOriginsFromConfig = async (config: StackUpConfig): Promise<Map<string, IImbricateOrigin>> => {
@@ -13,7 +13,7 @@ export const loadOriginsFromConfig = async (config: StackUpConfig): Promise<Map<
 
     for (const origin of config.originPersistencies) {
 
-        const originInstance: IImbricateOrigin | null = await loadImbricateOriginFromPersistanceOrigin(origin);
+        const originInstance: IImbricateOrigin | null = await loadImbricateOriginFromPersistenceOrigin(origin);
 
         if (originInstance) {
 

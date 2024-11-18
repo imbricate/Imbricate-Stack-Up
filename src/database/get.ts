@@ -36,7 +36,8 @@ export const attachDatabaseGetRoute = async (
 
         res.send({
             databaseUniqueIdentifier: database.uniqueIdentifier,
-            schema: database.schema,
+            databaseName: database.databaseName,
+            databaseSchema: database.schema,
         });
     });
 };

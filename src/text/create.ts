@@ -1,20 +1,21 @@
 /**
  * @author WMXPY
- * @namespace Database
+ * @namespace Text
  * @description Create
  */
 
-import { IImbricateDatabase, IImbricateOrigin } from "@imbricate/core";
+import { IImbricateOrigin, IImbricateText } from "@imbricate/core";
 import express from "express";
 
-export const attachDatabaseCreateRoute = async (
+export const attachTextCreateRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
 ): Promise<void> => {
 
-    application.post("/:origin/create-database", async (req, res) => {
+    application.post("/:origin/create-text", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
+
         const body: any = req.body;
 
         const origin: IImbricateOrigin | null =
@@ -25,13 +26,13 @@ export const attachDatabaseCreateRoute = async (
             return;
         }
 
-        const database: IImbricateDatabase = await origin.getDatabaseManager().createDatabase(
-            body.databaseName,
-            body.schema,
+        const text: IImbricateText = await origin.getTextManager().createText(
+            body.textName,
+            body.textContent,
         );
 
         res.send({
-            databaseUniqueIdentifier: database.uniqueIdentifier,
+            textUniqueIdentifier: text.uniqueIdentifier,
         });
     });
 };

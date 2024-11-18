@@ -1,21 +1,23 @@
 /**
  * @author WMXPY
  * @namespace Database
- * @description Get
+ * @description Put Schema
  */
 
 import { IImbricateDatabase, IImbricateOrigin } from "@imbricate/core";
 import express from "express";
 
-export const attachDatabaseGetRoute = async (
+export const attachDatabasePutSchemaRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
 ): Promise<void> => {
 
-    application.get("/:origin/database/:database", async (req, res) => {
+    application.put("/:origin/database/:database/schema", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
         const databaseUniqueIdentifier: string = req.params.database;
+
+        const body: any = req.body;
 
         const origin: IImbricateOrigin | null =
             originMap.get(originUniqueIdentifier) ?? null;
@@ -34,9 +36,10 @@ export const attachDatabaseGetRoute = async (
             return;
         }
 
+        database.putSchema(body.schema);
+
         res.send({
             databaseUniqueIdentifier: database.uniqueIdentifier,
-            schema: database.schema,
         });
     });
 };

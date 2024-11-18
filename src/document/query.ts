@@ -37,11 +37,18 @@ export const attachDocumentQueryRoute = async (
         }
 
         const documents: IImbricateDocument[] = await database.queryDocuments(body.query);
+        const response: any[] = [];
 
-        console.log(documents);
+        for (const document of documents) {
+            const properties = await document.getProperties();
+            response.push({
+                uniqueIdentifier: document.uniqueIdentifier,
+                properties,
+            });
+        }
 
         res.send({
-            documents,
+            documents: response,
         });
     });
 };

@@ -7,6 +7,7 @@ import { IImbricateOrigin } from "@imbricate/core";
 import { json } from "body-parser";
 import express from "express";
 import { attachDatabaseCreateRoute } from "./database/create";
+import { attachDatabaseGetRoute } from "./database/get";
 import { attachDatabaseListRoute } from "./database/list";
 import { StackUpConfig } from "./definition";
 import { attachDocumentCreateRoute } from "./document/create";
@@ -23,6 +24,7 @@ export const createStackUpServer = async (config: StackUpConfig): Promise<void> 
     application.use(json());
 
     attachDatabaseListRoute(application, originMap);
+    attachDatabaseGetRoute(application, originMap);
     attachDatabaseCreateRoute(application, originMap);
 
     attachDocumentCreateRoute(application, originMap);

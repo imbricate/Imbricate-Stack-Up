@@ -1,18 +1,18 @@
 /**
  * @author WMXPY
  * @namespace Document
- * @description Create
+ * @description Query
  */
 
 import { IImbricateDatabase, IImbricateDocument, IImbricateOrigin } from "@imbricate/core";
 import express from "express";
 
-export const attachDocumentCreateRoute = async (
+export const attachDocumentQueryRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
 ): Promise<void> => {
 
-    application.post("/:origin/database/:database/create-document", async (req, res) => {
+    application.post("/:origin/database/:database/query-document", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
         const databaseUniqueIdentifier: string = req.params.database;
@@ -36,10 +36,12 @@ export const attachDocumentCreateRoute = async (
             return;
         }
 
-        const document: IImbricateDocument = await database.createDocument(body.properties);
+        const documents: IImbricateDocument[] = await database.queryDocuments(body.query);
+
+        console.log(documents);
 
         res.send({
-            documentUniqueIdentifier: document.uniqueIdentifier,
+            documents,
         });
     });
 };

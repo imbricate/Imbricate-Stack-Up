@@ -12,6 +12,7 @@ import { StackUpConfig } from "./definition";
 import { attachDocumentCreateRoute } from "./document/create";
 import { attachDocumentGetRoute } from "./document/get";
 import { attachDocumentPutRoute } from "./document/put";
+import { attachDocumentQueryRoute } from "./document/query";
 import { loadOriginsFromConfig } from "./util/load";
 
 export const createStackUpServer = async (config: StackUpConfig): Promise<void> => {
@@ -27,6 +28,7 @@ export const createStackUpServer = async (config: StackUpConfig): Promise<void> 
     attachDocumentCreateRoute(application, originMap);
     attachDocumentGetRoute(application, originMap);
     attachDocumentPutRoute(application, originMap);
+    attachDocumentQueryRoute(application, originMap);
 
     application.listen(3000, () => {
         console.log("Server started on port 3000");

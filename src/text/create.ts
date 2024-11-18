@@ -27,8 +27,7 @@ export const attachTextCreateRoute = async (
         }
 
         const text: IImbricateText = await origin.getTextManager().createText(
-            body.textName,
-            body.textContent,
+            body.content,
         );
 
         res.send({

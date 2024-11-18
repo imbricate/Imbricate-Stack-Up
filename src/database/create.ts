@@ -25,13 +25,22 @@ export const attachDatabaseCreateRoute = async (
             return;
         }
 
-        const database: IImbricateDatabase = await origin.getDatabaseManager().createDatabase(
-            body.databaseName,
-            body.schema,
-        );
+        try {
+            const database: IImbricateDatabase = await origin.getDatabaseManager().createDatabase(
+                body.databaseName,
+                body.schema,
+            );
 
-        res.send({
-            databaseUniqueIdentifier: database.uniqueIdentifier,
-        });
+            res.send({
+                databaseUniqueIdentifier: database.uniqueIdentifier,
+            });
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({
+                error: (error as any).message,
+            });
+        }
     });
 };

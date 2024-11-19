@@ -5,6 +5,7 @@
 
 import { IImbricateOrigin } from "@imbricate/core";
 import { json } from "body-parser";
+import cors from "cors";
 import express from "express";
 import { attachDatabaseCreateRoute } from "./database/create";
 import { attachDatabaseGetRoute } from "./database/get";
@@ -25,6 +26,7 @@ export const createStackUpServer = async (config: StackUpConfig): Promise<void> 
 
     const application = express();
     application.use(json());
+    application.use(cors());
 
     attachDatabaseListRoute(application, originMap);
     attachDatabaseGetRoute(application, originMap);

@@ -42,10 +42,9 @@ export const attachDocumentQueryRoute = async (
         const response: any[] = [];
 
         for (const document of documents) {
-            const properties = await document.getProperties();
             response.push({
                 uniqueIdentifier: document.uniqueIdentifier,
-                properties,
+                properties: document.properties,
             });
         }
 

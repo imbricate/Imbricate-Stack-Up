@@ -4,7 +4,7 @@
  * @description Get
  */
 
-import { DocumentProperties, IImbricateDatabase, IImbricateDocument, IImbricateOrigin } from "@imbricate/core";
+import { IImbricateDatabase, IImbricateDocument, IImbricateOrigin } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentGetRoute = async (
@@ -44,12 +44,8 @@ export const attachDocumentGetRoute = async (
             return;
         }
 
-        const properties: DocumentProperties = await document.getProperties();
-
-        console.log(properties);
-
         res.send({
-            properties,
+            properties: document.properties,
         });
     });
 };

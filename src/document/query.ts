@@ -12,7 +12,7 @@ export const attachDocumentQueryRoute = async (
     originMap: Map<string, IImbricateOrigin>,
 ): Promise<void> => {
 
-    application.post("/:origin/database/:database/query-document", async (req, res) => {
+    application.post("/:origin/database/:database/query-documents", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
         const databaseUniqueIdentifier: string = req.params.database;
@@ -23,6 +23,7 @@ export const attachDocumentQueryRoute = async (
             originMap.get(originUniqueIdentifier) ?? null;
 
         if (!origin) {
+            console.log("Origin Not Found", originUniqueIdentifier);
             res.status(404).send("Origin Not Found");
             return;
         }
@@ -32,6 +33,7 @@ export const attachDocumentQueryRoute = async (
         );
 
         if (!database) {
+            console.log("Database Not Found", databaseUniqueIdentifier);
             res.status(404).send("Database Not Found");
             return;
         }

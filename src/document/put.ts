@@ -46,9 +46,13 @@ export const attachDocumentPutRoute = async (
             return;
         }
 
-        await document.putProperties(
+        const editRecords = await document.putProperties(
             body.properties,
         );
+
+        if (document.addEditRecords) {
+            await document.addEditRecords(editRecords);
+        }
 
         res.send({
             properties: document.properties,

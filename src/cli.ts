@@ -60,5 +60,3 @@ export const executeWithConfiguration = async (
         }
     }
 };
-
-execute();

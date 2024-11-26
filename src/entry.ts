@@ -46,5 +46,4 @@ export const createStackUpServer = async (config: StackUpConfig): Promise<expres
     attachTextGetRoute(application, originMap);
 
     return application;
-
 };

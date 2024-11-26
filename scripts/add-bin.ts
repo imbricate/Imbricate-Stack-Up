@@ -6,7 +6,20 @@
 
 import { readTextFile, writeTextFile } from "@sudoo/io";
 
+const createBinScript = (fileName: string): string => {
+
+    return [
+        "#!/usr/bin/env node",
+        "",
+        `const execute = require('./${fileName}.js').execute;`,
+        "execute(process.argv);", "",
+    ].join("\n");
+};
+
 (async () => {
+
+    const binScript = createBinScript("cli");
+    await writeTextFile("./app/stack-up-bin", binScript);
 
     const packagePath: string = "./app/package.json";
     const packageFile: string = await readTextFile(packagePath);
@@ -16,7 +29,7 @@ import { readTextFile, writeTextFile } from "@sudoo/io";
     const updatedPackageObject: any = {
         ...packageObject,
         bin: {
-            "stack-up": "./cli.js",
+            "stack-up": "stack-up-bin",
         },
     };
 

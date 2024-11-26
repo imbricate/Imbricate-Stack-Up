@@ -10,11 +10,9 @@
     "clean": "rm -rf app",
     "build": "tsc --project typescript/tsconfig.build.json",
     "license": "sdb license",
+    "add-bin": "ts-node --project typescript/tsconfig.script.json scripts/add-bin.ts",
     "replace-version": "ts-node --project typescript/tsconfig.script.json scripts/replace-version.ts",
-    "release": "yarn lint && yarn test && yarn license && yarn build && yarn replace-version",
-    "chmod-link": "chmod +x app/i7e-bin && chmod +x app/imbricate-bin",
-    "link": "yarn release && cd app && npm link && chmod +x i7e-bin && chmod +x imbricate-bin",
-    "relink": "yarn build && yarn replace-version && yarn chmod-link",
+    "release": "yarn lint && yarn test && yarn license && yarn build && yarn replace-version && yarn add-bin",
     "publish-dry-run": "yarn release && sdb --only publish-dry-run",
     "publish": "yarn release && sdb --only publish"
   },

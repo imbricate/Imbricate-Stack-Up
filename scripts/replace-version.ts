@@ -1,7 +1,7 @@
 /**
  * @author WMXPY
  * @namespace Script
- * @description Replace Version
+ * @description Add Bin
  */
 
 import { readTextFile, writeTextFile } from "@sudoo/io";
@@ -13,7 +13,6 @@ import { readTextFile, writeTextFile } from "@sudoo/io";
 
     const packageFile: string = await readTextFile(packagePath);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const packageObject: any = JSON.parse(packageFile);
 
     const version: string = packageObject.version;

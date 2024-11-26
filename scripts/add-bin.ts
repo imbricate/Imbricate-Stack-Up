@@ -22,5 +22,5 @@ import { readTextFile, writeTextFile } from "@sudoo/io";
 
     console.log("[Build] Added bin to package.json");
 
-    await writeTextFile(packagePath, updatedPackageObject);
+    await writeTextFile(packagePath, JSON.stringify(updatedPackageObject, null, 2));
 })();

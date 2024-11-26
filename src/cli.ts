@@ -40,7 +40,11 @@ export const executeWithConfiguration = async (
                 const rawConfig = await readTextFile(configFile);
                 const config: StackUpConfig = JSON.parse(rawConfig);
 
-                await createStackUpServer(config);
+                const application = await createStackUpServer(config);
+
+                application.listen(3000, () => {
+                    console.log("Server started on port 3000");
+                });
             });
 
         await program.parseAsync(commands);

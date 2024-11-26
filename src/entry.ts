@@ -20,7 +20,7 @@ import { attachTextCreateRoute } from "./text/create";
 import { attachTextGetRoute } from "./text/get";
 import { loadOriginsFromConfig } from "./util/load";
 
-export const createStackUpServer = async (config: StackUpConfig): Promise<void> => {
+export const createStackUpServer = async (config: StackUpConfig): Promise<express.Express> => {
 
     const originMap: Map<string, IImbricateOrigin> = await loadOriginsFromConfig(config);
 
@@ -45,7 +45,6 @@ export const createStackUpServer = async (config: StackUpConfig): Promise<void> 
     attachTextCreateRoute(application, originMap);
     attachTextGetRoute(application, originMap);
 
-    application.listen(3000, () => {
-        console.log("Server started on port 3000");
-    });
+    return application;
+
 };

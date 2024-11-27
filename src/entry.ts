@@ -16,6 +16,7 @@ import { attachDocumentCreateRoute } from "./document/create";
 import { attachDocumentGetRoute } from "./document/get";
 import { attachDocumentPutRoute } from "./document/put";
 import { attachDocumentQueryRoute } from "./document/query";
+import { attachSearchSearchRoute } from "./search/search";
 import { attachTextCreateRoute } from "./text/create";
 import { attachTextGetRoute } from "./text/get";
 import { loadOriginsFromConfig } from "./util/load";
@@ -41,6 +42,8 @@ export const createStackUpServer = async (config: StackUpConfig): Promise<expres
     attachDocumentGetRoute(application, originMap);
     attachDocumentPutRoute(application, originMap);
     attachDocumentQueryRoute(application, originMap);
+
+    attachSearchSearchRoute(application, originMap);
 
     attachTextCreateRoute(application, originMap);
     attachTextGetRoute(application, originMap);

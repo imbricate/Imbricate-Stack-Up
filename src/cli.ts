@@ -34,16 +34,17 @@ export const executeWithConfiguration = async (
             })
             .description(getApplicationDescription())
             .option("-d, --debug", "output extra debugging")
+            .option("-p, --port <port>", "port to listen on", "3000")
             .argument("<config-file>", "configurations file path")
-            .action(async (configFile: string) => {
+            .action(async (configFile: string, options) => {
 
                 const rawConfig = await readTextFile(configFile);
                 const config: StackUpConfig = JSON.parse(rawConfig);
 
                 const application = await createStackUpServer(config);
 
-                application.listen(3000, () => {
-                    console.log("Server started on port 3000");
+                application.listen(options.port, () => {
+                    console.log(`Server is running on port ${options.port}`);
                 });
             });
 

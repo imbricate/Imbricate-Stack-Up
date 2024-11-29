@@ -32,7 +32,7 @@
   },
   "homepage": "https://imbricate.io",
   "dependencies": {
-    "@imbricate/core": "^3.3.2",
+    "@imbricate/core": "^3.3.4",
     "@sudoo/io": "^1.8.0",
     "body-parser": "^1.20.3",
     "commander": "^12.1.0",

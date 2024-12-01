@@ -38,6 +38,7 @@ export const attachDatabaseGetRoute = async (
             databaseUniqueIdentifier: database.uniqueIdentifier,
             databaseName: database.databaseName,
             databaseSchema: database.schema,
+            databaseAnnotations: database.annotations,
         });
     });
 };

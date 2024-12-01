@@ -45,6 +45,7 @@ export const attachDocumentQueryRoute = async (
             response.push({
                 uniqueIdentifier: document.uniqueIdentifier,
                 properties: document.properties,
+                annotations: document.annotations,
             });
         }
 

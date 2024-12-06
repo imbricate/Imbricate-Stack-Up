@@ -8,7 +8,7 @@ import { readTextFile } from "@sudoo/io";
 import { Command } from "commander";
 import { StackUpConfig } from "./definition";
 import { createStackUpServer } from "./entry";
-import { getApplicationDescription } from "./util/description";
+import { getApplicationDescription, getApplicationLogo } from "./util/description";
 
 export const execute = async (): Promise<void> => {
 
@@ -37,6 +37,9 @@ export const executeWithConfiguration = async (
             .option("-p, --port <port>", "port to listen on", "3000")
             .argument("<config-file>", "configurations file path")
             .action(async (configFile: string, options) => {
+
+                const logo = getApplicationLogo();
+                console.log(logo);
 
                 const rawConfig = await readTextFile(configFile);
                 const config: StackUpConfig = JSON.parse(rawConfig);

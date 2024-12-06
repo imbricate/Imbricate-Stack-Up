@@ -37,7 +37,7 @@
     "body-parser": "^1.20.3",
     "commander": "^12.1.0",
     "cors": "^2.8.5",
-    "express": "^4.21.1"
+    "express": "^4.21.2"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

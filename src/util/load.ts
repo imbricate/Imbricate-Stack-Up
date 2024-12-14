@@ -17,7 +17,8 @@ export const loadOriginsFromConfig = async (config: StackUpConfig): Promise<Map<
 
         if (originInstance) {
 
-            console.log(`Loaded origin: ${origin.originName} - ${originInstance.uniqueIdentifier}`);
+            console.log(`Loaded origin: ${origin.originName} - [${origin.originLoadType}] ${origin.originLoadValue}`);
+
             originMap.set(originInstance.uniqueIdentifier, originInstance);
         }
     }

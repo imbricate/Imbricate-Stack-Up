@@ -48,6 +48,10 @@ export const executeWithConfiguration = async (
 
                 application.listen(options.port, () => {
                     console.log(`Server is running on port ${options.port}`);
+
+                    for (const origin of config.originPersistencies) {
+                        console.log(`Stack API: ${origin.originName} - ${origin.originLoadValue}`);
+                    }
                 });
             });
 

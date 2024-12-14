@@ -24,12 +24,13 @@ import { loadOriginsFromConfig } from "./util/load";
 
 export const createStackUpServer = async (config: StackUpConfig): Promise<express.Express> => {
 
-    const originMap: Map<string, IImbricateOrigin> = await loadOriginsFromConfig(config);
+    const originMap: Map<string, IImbricateOrigin> =
+        await loadOriginsFromConfig(config);
 
     const application = express();
     application.use(json());
     application.use(cors());
-    application.use((req, res, next) => {
+    application.use((req, _res, next) => {
         console.log(req.method, req.url);
         next();
     });

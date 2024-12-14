@@ -40,6 +40,7 @@ export const executeWithConfiguration = async (
 
                 const logo = getApplicationLogo();
                 console.log(logo);
+                console.log();
 
                 const rawConfig = await readTextFile(configFile);
                 const config: StackUpConfig = JSON.parse(rawConfig);

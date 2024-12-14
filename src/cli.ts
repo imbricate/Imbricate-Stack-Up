@@ -51,7 +51,6 @@ export const executeWithConfiguration = async (
                 );
 
                 application.listen(options.port, () => {
-                    console.log();
                     console.log(`Server is now running on port ${options.port}`);
                 });
             });

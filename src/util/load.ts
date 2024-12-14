@@ -22,6 +22,7 @@ export const loadOriginsFromConfig = async (
 
             console.log(`ORIGIN: ${origin.originName} - [${origin.originLoadType}] - ${origin.originLoadValue}`);
             console.log(`   URL: http://localhost:${port}/${originInstance.uniqueIdentifier}/database`);
+            console.log();
 
             originMap.set(originInstance.uniqueIdentifier, originInstance);
         }

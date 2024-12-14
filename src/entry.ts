@@ -13,6 +13,7 @@ import { attachDatabaseListRoute } from "./database/list";
 import { attachDatabasePutSchemaRoute } from "./database/put-schema";
 import { StackUpConfig } from "./definition";
 import { attachDocumentCreateRoute } from "./document/create";
+import { attachDocumentGetEditRecordsRoute } from "./document/edit-records";
 import { attachDocumentGetRoute } from "./document/get";
 import { attachDocumentPutRoute } from "./document/put";
 import { attachDocumentQueryRoute } from "./document/query";
@@ -39,6 +40,7 @@ export const createStackUpServer = async (config: StackUpConfig): Promise<expres
     attachDatabasePutSchemaRoute(application, originMap);
 
     attachDocumentCreateRoute(application, originMap);
+    attachDocumentGetEditRecordsRoute(application, originMap);
     attachDocumentGetRoute(application, originMap);
     attachDocumentPutRoute(application, originMap);
     attachDocumentQueryRoute(application, originMap);

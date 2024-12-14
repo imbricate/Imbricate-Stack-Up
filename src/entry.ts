@@ -22,10 +22,13 @@ import { attachTextCreateRoute } from "./text/create";
 import { attachTextGetRoute } from "./text/get";
 import { loadOriginsFromConfig } from "./util/load";
 
-export const createStackUpServer = async (config: StackUpConfig): Promise<express.Express> => {
+export const createStackUpServer = async (
+    config: StackUpConfig,
+    port: number,
+): Promise<express.Express> => {
 
     const originMap: Map<string, IImbricateOrigin> =
-        await loadOriginsFromConfig(config);
+        await loadOriginsFromConfig(config, port);
 
     const application = express();
     application.use(json());

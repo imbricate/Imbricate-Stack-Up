@@ -44,14 +44,14 @@ export const executeWithConfiguration = async (
                 const rawConfig = await readTextFile(configFile);
                 const config: StackUpConfig = JSON.parse(rawConfig);
 
-                const application = await createStackUpServer(config);
+                const application = await createStackUpServer(
+                    config,
+                    options.port,
+                );
 
                 application.listen(options.port, () => {
-                    console.log(`Server is running on port ${options.port}`);
-
-                    for (const origin of config.originPersistencies) {
-                        console.log(`Stack API: ${origin.originName} - ${origin.originLoadValue}`);
-                    }
+                    console.log();
+                    console.log(`Server is now running on port ${options.port}`);
                 });
             });
 

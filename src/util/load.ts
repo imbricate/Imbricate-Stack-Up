@@ -7,7 +7,10 @@
 import { IImbricateOrigin, loadImbricateOriginFromPersistenceOrigin } from "@imbricate/core";
 import { StackUpConfig } from "../definition";
 
-export const loadOriginsFromConfig = async (config: StackUpConfig): Promise<Map<string, IImbricateOrigin>> => {
+export const loadOriginsFromConfig = async (
+    config: StackUpConfig,
+    port: number,
+): Promise<Map<string, IImbricateOrigin>> => {
 
     const originMap: Map<string, IImbricateOrigin> = new Map();
 
@@ -17,7 +20,8 @@ export const loadOriginsFromConfig = async (config: StackUpConfig): Promise<Map<
 
         if (originInstance) {
 
-            console.log(`Loaded origin: ${origin.originName} - [${origin.originLoadType}] ${origin.originLoadValue}`);
+            console.log(`ORIGIN: ${origin.originName} - [${origin.originLoadType}] - ${origin.originLoadValue}`);
+            console.log(`   URL: http://localhost:${port}/${originInstance.uniqueIdentifier}/database`);
 
             originMap.set(originInstance.uniqueIdentifier, originInstance);
         }

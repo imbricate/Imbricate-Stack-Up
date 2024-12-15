@@ -47,6 +47,7 @@ export const attachDocumentCreateRoute = async (
 
             res.send({
                 documentUniqueIdentifier: document.uniqueIdentifier,
+                documentVersion: document.documentVersion,
             });
         } catch (error) {
 

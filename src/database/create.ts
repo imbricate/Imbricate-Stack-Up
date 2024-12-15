@@ -38,6 +38,7 @@ export const attachDatabaseCreateRoute = async (
 
             res.send({
                 databaseUniqueIdentifier: database.uniqueIdentifier,
+                databaseVersion: database.databaseVersion,
             });
         } catch (error) {
 

@@ -52,6 +52,8 @@ export const attachDocumentGetEditRecordsRoute = async (
         const editRecords: DocumentEditRecord[] = await document.getEditRecords();
 
         res.send({
+            documentUniqueIdentifier: document.uniqueIdentifier,
+            documentVersion: document.documentVersion,
             editRecords,
         });
     });

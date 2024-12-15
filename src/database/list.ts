@@ -30,6 +30,7 @@ export const attachDatabaseListRoute = async (
             databases: databases.map((database: IImbricateDatabase) => {
                 return {
                     databaseUniqueIdentifier: database.uniqueIdentifier,
+                    databaseVersion: database.databaseVersion,
                     databaseName: database.databaseName,
                     databaseSchema: database.schema,
                     databaseAnnotations: database.annotations,

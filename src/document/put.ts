@@ -59,6 +59,8 @@ export const attachDocumentPutRoute = async (
         }
 
         res.send({
+            documentUniqueIdentifier: document.uniqueIdentifier,
+            documentVersion: document.documentVersion,
             properties: document.properties,
         });
     });

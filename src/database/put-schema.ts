@@ -46,7 +46,7 @@ export const attachDatabasePutSchemaRoute = async (
 
         res.send({
             databaseUniqueIdentifier: database.uniqueIdentifier,
-
+            databaseVersion: database.databaseVersion,
         });
     });
 };

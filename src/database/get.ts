@@ -36,6 +36,7 @@ export const attachDatabaseGetRoute = async (
 
         res.send({
             databaseUniqueIdentifier: database.uniqueIdentifier,
+            databaseVersion: database.databaseVersion,
             databaseName: database.databaseName,
             databaseSchema: database.schema,
             databaseAnnotations: database.annotations,

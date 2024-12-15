@@ -45,6 +45,8 @@ export const attachDocumentGetRoute = async (
         }
 
         res.send({
+            documentUniqueIdentifier: document.uniqueIdentifier,
+            documentVersion: document.documentVersion,
             properties: document.properties,
             annotations: document.annotations,
         });

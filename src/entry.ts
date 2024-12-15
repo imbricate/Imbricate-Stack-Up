@@ -21,11 +21,22 @@ import { attachSearchSearchRoute } from "./search/search";
 import { attachTextCreateRoute } from "./text/create";
 import { attachTextGetRoute } from "./text/get";
 import { loadOriginsFromConfig } from "./util/load";
+import { validateStackUpConfig } from "./util/validate";
 
 export const createStackUpServer = async (
     config: StackUpConfig,
     port: number,
 ): Promise<express.Express> => {
+
+    const validationResult: boolean = validateStackUpConfig(config);
+
+    if (!validationResult) {
+
+        console.error("Invalid Stack Up Configuration");
+        throw new Error("Invalid Stack Up Configuration");
+    }
+
+    const authenticationSecret: string = config.authenticationSecret;
 
     const originMap: Map<string, IImbricateOrigin> =
         await loadOriginsFromConfig(config, port);
@@ -34,7 +45,13 @@ export const createStackUpServer = async (
     application.use(json());
     application.use(cors());
 
-    application.use((req, _res, next) => {
+    application.use((req, res, next) => {
+
+        if (req.headers.authorization !== `Bearer ${authenticationSecret}`) {
+            res.status(401).send("Unauthorized");
+            return;
+        }
+
         console.log(req.method, req.url);
         next();
     });

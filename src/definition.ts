@@ -3,9 +3,12 @@
  * @description Definition
  */
 
-import { ImbricateOriginPersistenceOrigin } from "@imbricate/core";
+import { ImbricateAuthor, ImbricateOriginPersistenceOrigin } from "@imbricate/core";
 
 export type StackUpConfig = {
 
     readonly originPersistencies: ImbricateOriginPersistenceOrigin[];
+
+    readonly authenticationSecret: string;
+    readonly author: ImbricateAuthor;
 };

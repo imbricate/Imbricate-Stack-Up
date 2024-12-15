@@ -33,6 +33,7 @@ export const createStackUpServer = async (
     const application = express();
     application.use(json());
     application.use(cors());
+
     application.use((req, _res, next) => {
         console.log(req.method, req.url);
         next();

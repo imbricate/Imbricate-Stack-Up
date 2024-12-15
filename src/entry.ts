@@ -37,6 +37,7 @@ export const createStackUpServer = async (
     }
 
     const authenticationSecret: string = config.authenticationSecret;
+    const author = config.author;
 
     const originMap: Map<string, IImbricateOrigin> =
         await loadOriginsFromConfig(config, port);
@@ -47,18 +48,20 @@ export const createStackUpServer = async (
 
     application.use((req, res, next) => {
 
+        console.log(req.method, req.url);
+
         if (req.headers.authorization !== `Bearer ${authenticationSecret}`) {
+
+            console.log(`Unauthorized: ${req.headers.authorization}`);
             res.status(401).send("Unauthorized");
             return;
         }
-
-        console.log(req.method, req.url);
         next();
     });
 
     attachDatabaseListRoute(application, originMap);
     attachDatabaseGetRoute(application, originMap);
-    attachDatabaseCreateRoute(application, originMap);
+    attachDatabaseCreateRoute(application, originMap, author);
     attachDatabasePutSchemaRoute(application, originMap);
 
     attachDocumentCreateRoute(application, originMap);

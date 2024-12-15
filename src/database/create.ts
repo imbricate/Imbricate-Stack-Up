@@ -4,12 +4,13 @@
  * @description Create
  */
 
-import { IImbricateDatabase, IImbricateOrigin } from "@imbricate/core";
+import { IImbricateDatabase, IImbricateOrigin, ImbricateAuthor } from "@imbricate/core";
 import express from "express";
 
 export const attachDatabaseCreateRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
+    author: ImbricateAuthor,
 ): Promise<void> => {
 
     application.post("/:origin/create-database", async (req, res) => {
@@ -26,9 +27,13 @@ export const attachDatabaseCreateRoute = async (
         }
 
         try {
+
             const database: IImbricateDatabase = await origin.getDatabaseManager().createDatabase(
                 body.databaseName,
                 body.schema,
+                {
+                    author,
+                },
             );
 
             res.send({

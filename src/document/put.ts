@@ -4,12 +4,13 @@
  * @description Put
  */
 
-import { IImbricateDatabase, IImbricateDocument, IImbricateOrigin } from "@imbricate/core";
+import { IImbricateDatabase, IImbricateDocument, IImbricateOrigin, ImbricateAuthor } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentPutRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
+    author: ImbricateAuthor,
 ): Promise<void> => {
 
     application.put("/:origin/database/:database/document/:document", async (req, res) => {
@@ -48,6 +49,9 @@ export const attachDocumentPutRoute = async (
 
         const editRecords = await document.putProperties(
             body.properties,
+            {
+                author,
+            },
         );
 
         if (document.addEditRecords) {

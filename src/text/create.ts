@@ -4,12 +4,13 @@
  * @description Create
  */
 
-import { IImbricateOrigin, IImbricateText } from "@imbricate/core";
+import { IImbricateOrigin, IImbricateText, ImbricateAuthor } from "@imbricate/core";
 import express from "express";
 
 export const attachTextCreateRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
+    author: ImbricateAuthor,
 ): Promise<void> => {
 
     application.post("/:origin/create-text", async (req, res) => {
@@ -28,6 +29,9 @@ export const attachTextCreateRoute = async (
 
         const text: IImbricateText = await origin.getTextManager().createText(
             body.content,
+            {
+                author,
+            },
         );
 
         res.send({

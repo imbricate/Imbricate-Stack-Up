@@ -62,17 +62,17 @@ export const createStackUpServer = async (
     attachDatabaseListRoute(application, originMap);
     attachDatabaseGetRoute(application, originMap);
     attachDatabaseCreateRoute(application, originMap, author);
-    attachDatabasePutSchemaRoute(application, originMap);
+    attachDatabasePutSchemaRoute(application, originMap, author);
 
-    attachDocumentCreateRoute(application, originMap);
+    attachDocumentCreateRoute(application, originMap, author);
     attachDocumentGetEditRecordsRoute(application, originMap);
     attachDocumentGetRoute(application, originMap);
-    attachDocumentPutRoute(application, originMap);
+    attachDocumentPutRoute(application, originMap, author);
     attachDocumentQueryRoute(application, originMap);
 
     attachSearchSearchRoute(application, originMap);
 
-    attachTextCreateRoute(application, originMap);
+    attachTextCreateRoute(application, originMap, author);
     attachTextGetRoute(application, originMap);
 
     return application;

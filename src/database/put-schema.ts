@@ -4,12 +4,13 @@
  * @description Put Schema
  */
 
-import { IImbricateDatabase, IImbricateOrigin } from "@imbricate/core";
+import { IImbricateDatabase, IImbricateOrigin, ImbricateAuthor } from "@imbricate/core";
 import express from "express";
 
 export const attachDatabasePutSchemaRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
+    author: ImbricateAuthor,
 ): Promise<void> => {
 
     application.put("/:origin/database/:database/schema", async (req, res) => {
@@ -36,10 +37,16 @@ export const attachDatabasePutSchemaRoute = async (
             return;
         }
 
-        database.putSchema(body.schema);
+        database.putSchema(
+            body.schema,
+            {
+                author,
+            },
+        );
 
         res.send({
             databaseUniqueIdentifier: database.uniqueIdentifier,
+
         });
     });
 };

@@ -14,6 +14,19 @@ export const validateStackUpConfig = (
         return false;
     }
 
+    if (typeof config.corsOriginList !== "undefined") {
+
+        if (!Array.isArray(config.corsOriginList)) {
+            return false;
+        }
+
+        for (const domain of config.corsOriginList) {
+            if (typeof domain !== "string") {
+                return false;
+            }
+        }
+    }
+
     if (!config.originPersistencies) {
         return false;
     }

@@ -42,9 +42,25 @@ export const createStackUpServer = async (
     const originMap: Map<string, IImbricateOrigin> =
         await loadOriginsFromConfig(config, port);
 
+    const corsAllowList = [
+        "https://imbricate.app",
+    ];
+
+    if (Array.isArray(config.corsOriginList)) {
+        corsAllowList.push(...config.corsOriginList);
+    }
+
+    console.log("Allowed Origin List for CORS:");
+
+    for (const allowedCorsDomain of corsAllowList) {
+        console.log(`- ${allowedCorsDomain}`);
+    }
+
     const application = express();
     application.use(json());
-    application.use(cors());
+    application.use(cors({
+        origin: corsAllowList,
+    }));
 
     application.use((req, res, next) => {
 

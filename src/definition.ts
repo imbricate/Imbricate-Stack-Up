@@ -7,6 +7,8 @@ import { ImbricateAuthor, ImbricateOriginPersistenceOrigin } from "@imbricate/co
 
 export type StackUpConfig = {
 
+    readonly corsOriginList?: string[];
+
     readonly originPersistencies: ImbricateOriginPersistenceOrigin[];
 
     readonly authenticationSecret: string;

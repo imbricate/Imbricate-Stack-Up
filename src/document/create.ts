@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateDatabase, IImbricateDocument, IImbricateOrigin, ImbricateAuthor } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateAuthor, ImbricateDatabaseCreateDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentCreateRoute = async (
@@ -28,26 +28,35 @@ export const attachDocumentCreateRoute = async (
             return;
         }
 
-        const database: IImbricateDatabase | null = await origin.getDatabaseManager().getDatabase(
+        const database: ImbricateDatabaseManagerGetDatabaseOutcome = await origin.getDatabaseManager().getDatabase(
             databaseUniqueIdentifier,
         );
 
-        if (!database) {
+        if (typeof database === "symbol") {
+
+            console.error("Database Not Found", database);
             res.status(404).send("Database Not Found");
             return;
         }
 
         try {
-            const document: IImbricateDocument = await database.createDocument(
+            const document: ImbricateDatabaseCreateDocumentOutcome = await database.database.createDocument(
                 body.properties,
                 {
                     author,
                 },
             );
 
+            if (typeof document === "symbol") {
+
+                console.error("Document Not Found", document);
+                res.status(404).send("Document Not Found");
+                return;
+            }
+
             res.send({
-                documentUniqueIdentifier: document.uniqueIdentifier,
-                documentVersion: document.documentVersion,
+                documentUniqueIdentifier: document.document.uniqueIdentifier,
+                documentVersion: document.document.documentVersion,
             });
         } catch (error) {
 

@@ -4,7 +4,7 @@
  * @description Get
  */
 
-import { IImbricateDatabase, IImbricateDocument, IImbricateOrigin } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentGetRoute = async (
@@ -22,33 +22,39 @@ export const attachDocumentGetRoute = async (
             originMap.get(originUniqueIdentifier) ?? null;
 
         if (!origin) {
+
+            console.error("Origin Not Found", originUniqueIdentifier);
             res.status(404).send("Origin Not Found");
             return;
         }
 
-        const database: IImbricateDatabase | null = await origin.getDatabaseManager().getDatabase(
+        const database: ImbricateDatabaseManagerGetDatabaseOutcome = await origin.getDatabaseManager().getDatabase(
             databaseUniqueIdentifier,
         );
 
-        if (!database) {
+        if (typeof database === "symbol") {
+
+            console.error("Database Not Found", database);
             res.status(404).send("Database Not Found");
             return;
         }
 
-        const document: IImbricateDocument | null = await database.getDocument(
+        const document: ImbricateDatabaseGetDocumentOutcome = await database.database.getDocument(
             documentUniqueIdentifier,
         );
 
-        if (!document) {
+        if (typeof document === "symbol") {
+
+            console.error("Document Not Found", document);
             res.status(404).send("Document Not Found");
             return;
         }
 
         res.send({
-            documentUniqueIdentifier: document.uniqueIdentifier,
-            documentVersion: document.documentVersion,
-            properties: document.properties,
-            annotations: document.annotations,
+            documentUniqueIdentifier: document.document.uniqueIdentifier,
+            documentVersion: document.document.documentVersion,
+            properties: document.document.properties,
+            annotations: document.document.annotations,
         });
     });
 };

@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateOrigin, IImbricateText, ImbricateAuthor } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateAuthor, ImbricateTextManagerCreateTextOutcome } from "@imbricate/core";
 import express from "express";
 
 export const attachTextCreateRoute = async (
@@ -27,15 +27,22 @@ export const attachTextCreateRoute = async (
             return;
         }
 
-        const text: IImbricateText = await origin.getTextManager().createText(
+        const text: ImbricateTextManagerCreateTextOutcome = await origin.getTextManager().createText(
             body.content,
             {
                 author,
             },
         );
 
+        if (typeof text === "symbol") {
+
+            console.error("Text Not Found", text);
+            res.status(404).send("Text Not Found");
+            return;
+        }
+
         res.send({
-            textUniqueIdentifier: text.uniqueIdentifier,
+            textUniqueIdentifier: text.text.uniqueIdentifier,
         });
     });
 };

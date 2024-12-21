@@ -4,7 +4,7 @@
  * @description Put Schema
  */
 
-import { IImbricateDatabase, IImbricateOrigin, ImbricateAuthor } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateAuthor, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabasePutSchemaOutcome } from "@imbricate/core";
 import express from "express";
 
 export const attachDatabasePutSchemaRoute = async (
@@ -24,29 +24,40 @@ export const attachDatabasePutSchemaRoute = async (
             originMap.get(originUniqueIdentifier) ?? null;
 
         if (!origin) {
+
+            console.error("Origin Not Found", originUniqueIdentifier);
             res.status(404).send("Origin Not Found");
             return;
         }
 
-        const database: IImbricateDatabase | null = await origin.getDatabaseManager().getDatabase(
+        const database: ImbricateDatabaseManagerGetDatabaseOutcome = await origin.getDatabaseManager().getDatabase(
             databaseUniqueIdentifier,
         );
 
-        if (!database) {
+        if (typeof database === "symbol") {
+
+            console.error("Database Not Found", database);
             res.status(404).send("Database Not Found");
             return;
         }
 
-        database.putSchema(
+        const result: ImbricateDatabasePutSchemaOutcome = await database.database.putSchema(
             body.schema,
             {
                 author,
             },
         );
 
+        if (typeof result === "symbol") {
+
+            console.error("Put Schema Failed", result);
+            res.status(404).send("Put Schema Failed");
+            return;
+        }
+
         res.send({
-            databaseUniqueIdentifier: database.uniqueIdentifier,
-            databaseVersion: database.databaseVersion,
+            databaseUniqueIdentifier: database.database.uniqueIdentifier,
+            databaseVersion: database.database.databaseVersion,
         });
     });
 };

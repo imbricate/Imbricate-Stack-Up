@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateDatabase, IImbricateOrigin, ImbricateAuthor } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateAuthor, ImbricateDatabaseManagerCreateDatabaseOutcome } from "@imbricate/core";
 import express from "express";
 
 export const attachDatabaseCreateRoute = async (
@@ -22,13 +22,15 @@ export const attachDatabaseCreateRoute = async (
             originMap.get(originUniqueIdentifier) ?? null;
 
         if (!origin) {
+
+            console.error("Origin Not Found", originUniqueIdentifier);
             res.status(404).send("Origin Not Found");
             return;
         }
 
         try {
 
-            const database: IImbricateDatabase = await origin.getDatabaseManager().createDatabase(
+            const database: ImbricateDatabaseManagerCreateDatabaseOutcome = await origin.getDatabaseManager().createDatabase(
                 body.databaseName,
                 body.schema,
                 {
@@ -36,9 +38,16 @@ export const attachDatabaseCreateRoute = async (
                 },
             );
 
+            if (typeof database === "symbol") {
+
+                console.error("Create Database Failed", database);
+                res.status(404).send("Create Database Failed");
+                return;
+            }
+
             res.send({
-                databaseUniqueIdentifier: database.uniqueIdentifier,
-                databaseVersion: database.databaseVersion,
+                databaseUniqueIdentifier: database.database.uniqueIdentifier,
+                databaseVersion: database.database.databaseVersion,
             });
         } catch (error) {
 

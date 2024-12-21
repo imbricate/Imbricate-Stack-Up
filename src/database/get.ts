@@ -4,7 +4,7 @@
  * @description Get
  */
 
-import { IImbricateDatabase, IImbricateOrigin } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome } from "@imbricate/core";
 import express from "express";
 
 export const attachDatabaseGetRoute = async (
@@ -21,25 +21,29 @@ export const attachDatabaseGetRoute = async (
             originMap.get(originUniqueIdentifier) ?? null;
 
         if (!origin) {
+
+            console.error("Origin Not Found", originUniqueIdentifier);
             res.status(404).send("Origin Not Found");
             return;
         }
 
-        const database: IImbricateDatabase | null = await origin.getDatabaseManager().getDatabase(
+        const database: ImbricateDatabaseManagerGetDatabaseOutcome = await origin.getDatabaseManager().getDatabase(
             databaseUniqueIdentifier,
         );
 
-        if (!database) {
+        if (typeof database === "symbol") {
+
+            console.error("Database Not Found", database);
             res.status(404).send("Database Not Found");
             return;
         }
 
         res.send({
-            databaseUniqueIdentifier: database.uniqueIdentifier,
-            databaseVersion: database.databaseVersion,
-            databaseName: database.databaseName,
-            databaseSchema: database.schema,
-            databaseAnnotations: database.annotations,
+            databaseUniqueIdentifier: database.database.uniqueIdentifier,
+            databaseVersion: database.database.databaseVersion,
+            databaseName: database.database.databaseName,
+            databaseSchema: database.database.schema,
+            databaseAnnotations: database.database.annotations,
         });
     });
 };

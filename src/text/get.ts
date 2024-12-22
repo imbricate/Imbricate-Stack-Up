@@ -49,6 +49,7 @@ export const attachTextGetRoute = async (
 
         res.send({
             textUniqueIdentifier: text.text.uniqueIdentifier,
+            author: text.text.author,
             content: textContent.content,
         });
     });

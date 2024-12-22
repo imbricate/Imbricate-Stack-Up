@@ -43,6 +43,7 @@ export const attachTextCreateRoute = async (
 
         res.send({
             textUniqueIdentifier: text.text.uniqueIdentifier,
+            author: text.text.author,
         });
     });
 };

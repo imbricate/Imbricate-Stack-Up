@@ -4,7 +4,7 @@
  * @description Get
  */
 
-import { IImbricateOrigin, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_GetDocument_Unknown } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentGetRoute = async (
@@ -24,7 +24,7 @@ export const attachDocumentGetRoute = async (
         if (!origin) {
 
             console.error("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_Database_GetDocument_Unknown.description);
             return;
         }
 
@@ -35,7 +35,7 @@ export const attachDocumentGetRoute = async (
         if (typeof database === "symbol") {
 
             console.error("Database Not Found", database);
-            res.status(404).send("Database Not Found");
+            res.status(404).send(database.description);
             return;
         }
 
@@ -46,7 +46,7 @@ export const attachDocumentGetRoute = async (
         if (typeof document === "symbol") {
 
             console.error("Document Not Found", document);
-            res.status(404).send("Document Not Found");
+            res.status(404).send(document.description);
             return;
         }
 

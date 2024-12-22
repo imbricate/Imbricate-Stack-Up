@@ -4,7 +4,7 @@
  * @description Put
  */
 
-import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateAuthor, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentPutPropertyOutcome, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
+import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateAuthor, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentPutPropertyOutcome, S_Document_PutProperty_Unknown, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentPutRoute = async (
@@ -27,7 +27,7 @@ export const attachDocumentPutRoute = async (
         if (!origin) {
 
             console.error("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_Document_PutProperty_Unknown.description);
             return;
         }
 
@@ -38,7 +38,7 @@ export const attachDocumentPutRoute = async (
         if (typeof database === "symbol") {
 
             console.error("Database Not Found", database);
-            res.status(404).send("Database Not Found");
+            res.status(404).send(database.description);
             return;
         }
 
@@ -49,7 +49,7 @@ export const attachDocumentPutRoute = async (
         if (typeof document === "symbol") {
 
             console.error("Document Not Found", document);
-            res.status(404).send("Document Not Found");
+            res.status(404).send(document.description);
             return;
         }
 
@@ -63,7 +63,7 @@ export const attachDocumentPutRoute = async (
         if (typeof editRecords === "symbol") {
 
             console.error("Edit Records Not Found", editRecords);
-            res.status(404).send("Edit Records Not Found");
+            res.status(404).send(editRecords.description);
             return;
         }
 

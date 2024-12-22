@@ -4,7 +4,7 @@
  * @description Get
  */
 
-import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome, S_DatabaseManager_GetDatabase_Unknown } from "@imbricate/core";
 import express from "express";
 
 export const attachDatabaseGetRoute = async (
@@ -23,7 +23,7 @@ export const attachDatabaseGetRoute = async (
         if (!origin) {
 
             console.error("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_DatabaseManager_GetDatabase_Unknown.description);
             return;
         }
 
@@ -34,7 +34,7 @@ export const attachDatabaseGetRoute = async (
         if (typeof database === "symbol") {
 
             console.error("Database Not Found", database);
-            res.status(404).send("Database Not Found");
+            res.status(404).send(database.description);
             return;
         }
 

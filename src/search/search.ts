@@ -4,7 +4,7 @@
  * @description Search
  */
 
-import { IImbricateOrigin, ImbricateOriginSearchOutcome } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateOriginSearchOutcome, S_Origin_Search_Unknown } from "@imbricate/core";
 import express from "express";
 
 export const attachSearchSearchRoute = async (
@@ -24,7 +24,7 @@ export const attachSearchSearchRoute = async (
         if (!origin) {
 
             console.log("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_Origin_Search_Unknown.description);
             return;
         }
 
@@ -33,7 +33,7 @@ export const attachSearchSearchRoute = async (
         if (typeof searchResult === "symbol") {
 
             console.error("Search Result Not Found", searchResult);
-            res.status(404).send("Search Result Not Found");
+            res.status(404).send(searchResult.description);
             return;
         }
 

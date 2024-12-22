@@ -4,7 +4,7 @@
  * @description Query
  */
 
-import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabaseQueryDocumentsOutcome } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabaseQueryDocumentsOutcome, S_Database_QueryDocuments_Unknown } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentQueryRoute = async (
@@ -25,7 +25,7 @@ export const attachDocumentQueryRoute = async (
         if (!origin) {
 
             console.error("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_Database_QueryDocuments_Unknown.description);
             return;
         }
 
@@ -36,7 +36,7 @@ export const attachDocumentQueryRoute = async (
         if (typeof database === "symbol") {
 
             console.error("Database Not Found", database);
-            res.status(404).send("Database Not Found");
+            res.status(404).send(database.description);
             return;
         }
 
@@ -45,7 +45,7 @@ export const attachDocumentQueryRoute = async (
         if (typeof documents === "symbol") {
 
             console.error("Documents Not Found", documents);
-            res.status(404).send("Documents Not Found");
+            res.status(404).send(documents.description);
             return;
         }
 

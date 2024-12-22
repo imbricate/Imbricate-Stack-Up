@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateOrigin, ImbricateAuthor, ImbricateTextManagerCreateTextOutcome } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateAuthor, ImbricateTextManagerCreateTextOutcome, S_TextManager_CreateText_Unknown } from "@imbricate/core";
 import express from "express";
 
 export const attachTextCreateRoute = async (
@@ -23,7 +23,7 @@ export const attachTextCreateRoute = async (
             originMap.get(originUniqueIdentifier) ?? null;
 
         if (!origin) {
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_TextManager_CreateText_Unknown.description);
             return;
         }
 
@@ -36,8 +36,8 @@ export const attachTextCreateRoute = async (
 
         if (typeof text === "symbol") {
 
-            console.error("Text Not Found", text);
-            res.status(404).send("Text Not Found");
+            console.error("Create Text Failed", text);
+            res.status(404).send(text.description);
             return;
         }
 

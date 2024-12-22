@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateOrigin, ImbricateAuthor, ImbricateDatabaseCreateDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateAuthor, ImbricateDatabaseCreateDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_CreateDocument_Unknown } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentCreateRoute = async (
@@ -24,7 +24,7 @@ export const attachDocumentCreateRoute = async (
             originMap.get(originUniqueIdentifier) ?? null;
 
         if (!origin) {
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_Database_CreateDocument_Unknown.description);
             return;
         }
 
@@ -35,7 +35,7 @@ export const attachDocumentCreateRoute = async (
         if (typeof database === "symbol") {
 
             console.error("Database Not Found", database);
-            res.status(404).send("Database Not Found");
+            res.status(404).send(database.description);
             return;
         }
 
@@ -50,7 +50,7 @@ export const attachDocumentCreateRoute = async (
             if (typeof document === "symbol") {
 
                 console.error("Document Not Found", document);
-                res.status(404).send("Document Not Found");
+                res.status(404).send(document.description);
                 return;
             }
 
@@ -62,9 +62,7 @@ export const attachDocumentCreateRoute = async (
 
             console.error(error);
 
-            res.status(500).send({
-                error: (error as any).message,
-            });
+            res.status(500).send(S_Database_CreateDocument_Unknown.description);
         }
     });
 };

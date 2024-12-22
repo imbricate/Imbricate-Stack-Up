@@ -4,7 +4,7 @@
  * @description Get
  */
 
-import { IImbricateOrigin, ImbricateTextGetContentOutcome, ImbricateTextManagerGetTextOutcome } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateTextGetContentOutcome, ImbricateTextManagerGetTextOutcome, S_TextManager_GetText_Unknown } from "@imbricate/core";
 import express from "express";
 
 export const attachTextGetRoute = async (
@@ -23,7 +23,7 @@ export const attachTextGetRoute = async (
         if (!origin) {
 
             console.error("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_TextManager_GetText_Unknown.description);
             return;
         }
 
@@ -34,7 +34,7 @@ export const attachTextGetRoute = async (
         if (typeof text === "symbol") {
 
             console.error("Text Not Found", text);
-            res.status(404).send("Text Not Found");
+            res.status(404).send(text.description);
             return;
         }
 
@@ -43,7 +43,7 @@ export const attachTextGetRoute = async (
         if (typeof textContent === "symbol") {
 
             console.error("Text Content Not Found", textContent);
-            res.status(404).send("Text Content Not Found");
+            res.status(404).send(textContent.description);
             return;
         }
 

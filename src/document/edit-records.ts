@@ -4,7 +4,7 @@
  * @description Edit Records
  */
 
-import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentGetEditRecordsOutcome, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
+import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentGetEditRecordsOutcome, S_Document_GetEditRecords_Unknown, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
 import express from "express";
 
 export const attachDocumentGetEditRecordsRoute = async (
@@ -24,7 +24,7 @@ export const attachDocumentGetEditRecordsRoute = async (
         if (!origin) {
 
             console.error("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_Document_GetEditRecords_Unknown.description);
             return;
         }
 
@@ -35,7 +35,7 @@ export const attachDocumentGetEditRecordsRoute = async (
         if (typeof database === "symbol") {
 
             console.error("Database Not Found", database);
-            res.status(404).send("Database Not Found");
+            res.status(404).send(database.description);
             return;
         }
 
@@ -46,7 +46,7 @@ export const attachDocumentGetEditRecordsRoute = async (
         if (typeof document === "symbol") {
 
             console.error("Document Not Found", document);
-            res.status(404).send("Document Not Found");
+            res.status(404).send(document.description);
             return;
         }
 
@@ -56,7 +56,7 @@ export const attachDocumentGetEditRecordsRoute = async (
         )) {
 
             console.error("Document Not Support Edit Records", document.document.supportedFeatures);
-            res.status(501).send("Document Not Support Edit Records");
+            res.status(501).send(S_Document_GetEditRecords_Unknown.description);
             return;
         }
 
@@ -65,7 +65,7 @@ export const attachDocumentGetEditRecordsRoute = async (
         if (typeof editRecords === "symbol") {
 
             console.error("Edit Records Not Found", editRecords);
-            res.status(404).send("Edit Records Not Found");
+            res.status(404).send(editRecords.description);
             return;
         }
 

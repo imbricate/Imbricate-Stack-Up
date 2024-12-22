@@ -4,7 +4,7 @@
  * @description List
  */
 
-import { IImbricateDatabase, IImbricateOrigin, ImbricateDatabaseManagerListDatabasesOutcome } from "@imbricate/core";
+import { IImbricateDatabase, IImbricateOrigin, ImbricateDatabaseManagerListDatabasesOutcome, S_DatabaseManager_ListDatabases_Unknown } from "@imbricate/core";
 import express from "express";
 
 export const attachDatabaseListRoute = async (
@@ -22,7 +22,7 @@ export const attachDatabaseListRoute = async (
         if (!origin) {
 
             console.error("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send("Origin Not Found");
+            res.status(404).send(S_DatabaseManager_ListDatabases_Unknown.description);
             return;
         }
 
@@ -31,7 +31,7 @@ export const attachDatabaseListRoute = async (
         if (typeof databases === "symbol") {
 
             console.error("List Databases Failed", databases);
-            res.status(404).send("List Databases Failed");
+            res.status(404).send(databases.description);
             return;
         }
 

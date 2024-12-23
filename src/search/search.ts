@@ -7,6 +7,11 @@
 import { IImbricateOrigin, ImbricateOriginSearchOutcome, S_Origin_Search_Unknown } from "@imbricate/core";
 import express from "express";
 
+export type ImbricateSearchSearchResponse = {
+
+    readonly result: ImbricateOriginSearchOutcome;
+};
+
 export const attachSearchSearchRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
@@ -37,8 +42,10 @@ export const attachSearchSearchRoute = async (
             return;
         }
 
-        res.send({
+        const response: ImbricateSearchSearchResponse = {
             result: searchResult,
-        });
+        };
+
+        res.send(response);
     });
 };

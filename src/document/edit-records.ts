@@ -4,8 +4,16 @@
  * @description Edit Records
  */
 
-import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentGetEditRecordsOutcome, S_Document_GetEditRecords_Unknown, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
+import { DocumentEditRecord, IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentGetEditRecordsOutcome, S_Document_GetEditRecords_Unknown, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
 import express from "express";
+
+export type ImbricateDocumentGetEditRecordsResponse = {
+
+    readonly documentUniqueIdentifier: string;
+    readonly documentVersion: string;
+
+    editRecords?: DocumentEditRecord[];
+};
 
 export const attachDocumentGetEditRecordsRoute = async (
     application: express.Express,
@@ -28,9 +36,10 @@ export const attachDocumentGetEditRecordsRoute = async (
             return;
         }
 
-        const database: ImbricateDatabaseManagerGetDatabaseOutcome = await origin.getDatabaseManager().getDatabase(
-            databaseUniqueIdentifier,
-        );
+        const database: ImbricateDatabaseManagerGetDatabaseOutcome =
+            await origin.getDatabaseManager().getDatabase(
+                databaseUniqueIdentifier,
+            );
 
         if (typeof database === "symbol") {
 
@@ -39,9 +48,10 @@ export const attachDocumentGetEditRecordsRoute = async (
             return;
         }
 
-        const document: ImbricateDatabaseGetDocumentOutcome = await database.database.getDocument(
-            documentUniqueIdentifier,
-        );
+        const document: ImbricateDatabaseGetDocumentOutcome =
+            await database.database.getDocument(
+                documentUniqueIdentifier,
+            );
 
         if (typeof document === "symbol") {
 
@@ -69,10 +79,19 @@ export const attachDocumentGetEditRecordsRoute = async (
             return;
         }
 
-        res.send({
+        const response: ImbricateDocumentGetEditRecordsResponse = {
             documentUniqueIdentifier: document.document.uniqueIdentifier,
             documentVersion: document.document.documentVersion,
-            editRecords: editRecords.editRecords,
-        });
+        };
+
+        if (checkImbricateDocumentFeatureSupported(
+            document.document.supportedFeatures,
+            IMBRICATE_DOCUMENT_FEATURE.DOCUMENT_GET_EDIT_RECORD,
+        )) {
+
+            response.editRecords = editRecords.editRecords;
+        }
+
+        res.send(response);
     });
 };

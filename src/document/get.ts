@@ -4,8 +4,18 @@
  * @description Get
  */
 
-import { IImbricateOrigin, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_GetDocument_Unknown } from "@imbricate/core";
+import { DocumentAnnotations, DocumentProperties, IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_GetDocument_Unknown } from "@imbricate/core";
 import express from "express";
+
+export type ImbricateDocumentGetResponse = {
+
+    readonly supportedFeatures: IMBRICATE_DOCUMENT_FEATURE[];
+
+    readonly documentUniqueIdentifier: string;
+    readonly documentVersion: string;
+    readonly properties: DocumentProperties;
+    readonly annotations: DocumentAnnotations;
+};
 
 export const attachDocumentGetRoute = async (
     application: express.Express,
@@ -50,11 +60,14 @@ export const attachDocumentGetRoute = async (
             return;
         }
 
-        res.send({
+        const response: ImbricateDocumentGetResponse = {
+            supportedFeatures: document.document.supportedFeatures,
             documentUniqueIdentifier: document.document.uniqueIdentifier,
             documentVersion: document.document.documentVersion,
             properties: document.document.properties,
             annotations: document.document.annotations,
-        });
+        };
+
+        res.send(response);
     });
 };

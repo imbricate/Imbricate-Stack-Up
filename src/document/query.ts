@@ -6,6 +6,12 @@
 
 import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabaseQueryDocumentsOutcome, S_Database_QueryDocuments_Unknown } from "@imbricate/core";
 import express from "express";
+import { ImbricateDocumentGetResponse } from "./get";
+
+export type ImbricateDocumentQueryResponse = {
+
+    readonly documents: ImbricateDocumentGetResponse[];
+};
 
 export const attachDocumentQueryRoute = async (
     application: express.Express,
@@ -49,12 +55,13 @@ export const attachDocumentQueryRoute = async (
             return;
         }
 
-        const response: any[] = [];
+        const response: ImbricateDocumentGetResponse[] = [];
 
         for (const document of documents.documents) {
 
             response.push({
-                uniqueIdentifier: document.uniqueIdentifier,
+                supportedFeatures: document.supportedFeatures,
+                documentUniqueIdentifier: document.uniqueIdentifier,
                 documentVersion: document.documentVersion,
                 properties: document.properties,
                 annotations: document.annotations,

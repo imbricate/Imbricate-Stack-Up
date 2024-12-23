@@ -7,6 +7,12 @@
 import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateAuthor, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentPutPropertyOutcome, S_Document_PutProperty_Unknown, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
 import express from "express";
 
+export type ImbricateDocumentPutResponse = {
+
+    readonly documentUniqueIdentifier: string;
+    readonly documentVersion: string;
+};
+
 export const attachDocumentPutRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
@@ -78,10 +84,11 @@ export const attachDocumentPutRoute = async (
             console.log("Edit Records Not Supported, skipping");
         }
 
-        res.send({
+        const response: ImbricateDocumentPutResponse = {
             documentUniqueIdentifier: document.document.uniqueIdentifier,
             documentVersion: document.document.documentVersion,
-            properties: document.document.properties,
-        });
+        };
+
+        res.send(response);
     });
 };

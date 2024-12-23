@@ -4,8 +4,16 @@
  * @description Create
  */
 
-import { IImbricateOrigin, ImbricateAuthor, ImbricateDatabaseCreateDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_CreateDocument_Unknown } from "@imbricate/core";
+import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateAuthor, ImbricateDatabaseCreateDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_CreateDocument_Unknown } from "@imbricate/core";
 import express from "express";
+
+export type ImbricateDocumentCreateResponse = {
+
+    readonly supportedFeatures: IMBRICATE_DOCUMENT_FEATURE[];
+
+    readonly documentUniqueIdentifier: string;
+    readonly documentVersion: string;
+};
 
 export const attachDocumentCreateRoute = async (
     application: express.Express,
@@ -54,10 +62,13 @@ export const attachDocumentCreateRoute = async (
                 return;
             }
 
-            res.send({
+            const response: ImbricateDocumentCreateResponse = {
+                supportedFeatures: document.document.supportedFeatures,
                 documentUniqueIdentifier: document.document.uniqueIdentifier,
                 documentVersion: document.document.documentVersion,
-            });
+            };
+
+            res.send(response);
         } catch (error) {
 
             console.error(error);

@@ -9,9 +9,10 @@ import express from "express";
 
 export type ImbricateDatabaseCreateResponse = {
 
+    readonly supportedFeatures: IMBRICATE_DATABASE_FEATURE[];
+
     readonly databaseUniqueIdentifier: string;
     readonly databaseVersion: string;
-    readonly supportedFeatures: IMBRICATE_DATABASE_FEATURE[];
 };
 
 export const attachDatabaseCreateRoute = async (
@@ -56,9 +57,9 @@ export const attachDatabaseCreateRoute = async (
 
             const response: ImbricateDatabaseCreateResponse = {
 
+                supportedFeatures: database.database.supportedFeatures,
                 databaseUniqueIdentifier: database.database.uniqueIdentifier,
                 databaseVersion: database.database.databaseVersion,
-                supportedFeatures: database.database.supportedFeatures,
             };
 
             res.send(response);

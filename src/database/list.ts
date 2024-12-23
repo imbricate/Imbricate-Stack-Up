@@ -4,8 +4,21 @@
  * @description List
  */
 
-import { IImbricateDatabase, IImbricateOrigin, ImbricateDatabaseManagerListDatabasesOutcome, S_DatabaseManager_ListDatabases_Unknown } from "@imbricate/core";
+import { DatabaseAnnotations, IImbricateDatabase, IImbricateOrigin, IMBRICATE_DATABASE_FEATURE, ImbricateDatabaseManagerListDatabasesOutcome, ImbricateDatabaseSchema, S_DatabaseManager_ListDatabases_Unknown } from "@imbricate/core";
 import express from "express";
+
+export type ImbricateDatabaseListResponse = {
+
+    readonly databases: {
+        readonly supportedFeatures: IMBRICATE_DATABASE_FEATURE[];
+
+        readonly databaseUniqueIdentifier: string;
+        readonly databaseVersion: string;
+        readonly databaseName: string;
+        readonly databaseSchema: ImbricateDatabaseSchema;
+        readonly databaseAnnotations: DatabaseAnnotations;
+    }[];
+};
 
 export const attachDatabaseListRoute = async (
     application: express.Express,
@@ -35,9 +48,10 @@ export const attachDatabaseListRoute = async (
             return;
         }
 
-        res.send({
+        const response: ImbricateDatabaseListResponse = {
             databases: databases.databases.map((database: IImbricateDatabase) => {
                 return {
+                    supportedFeatures: database.supportedFeatures,
                     databaseUniqueIdentifier: database.uniqueIdentifier,
                     databaseVersion: database.databaseVersion,
                     databaseName: database.databaseName,
@@ -45,6 +59,8 @@ export const attachDatabaseListRoute = async (
                     databaseAnnotations: database.annotations,
                 };
             }),
-        });
+        };
+
+        res.send(response);
     });
 };

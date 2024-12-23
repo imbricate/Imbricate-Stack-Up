@@ -4,8 +4,19 @@
  * @description Get
  */
 
-import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome, S_DatabaseManager_GetDatabase_Unknown } from "@imbricate/core";
+import { DatabaseAnnotations, IImbricateOrigin, IMBRICATE_DATABASE_FEATURE, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabaseSchema, S_DatabaseManager_GetDatabase_Unknown } from "@imbricate/core";
 import express from "express";
+
+export type ImbricateDatabaseGetResponse = {
+
+    readonly supportedFeatures: IMBRICATE_DATABASE_FEATURE[];
+
+    readonly databaseUniqueIdentifier: string;
+    readonly databaseVersion: string;
+    readonly databaseName: string;
+    readonly databaseSchema: ImbricateDatabaseSchema;
+    readonly databaseAnnotations: DatabaseAnnotations;
+};
 
 export const attachDatabaseGetRoute = async (
     application: express.Express,
@@ -38,12 +49,15 @@ export const attachDatabaseGetRoute = async (
             return;
         }
 
-        res.send({
+        const response: ImbricateDatabaseGetResponse = {
+            supportedFeatures: database.database.supportedFeatures,
             databaseUniqueIdentifier: database.database.uniqueIdentifier,
             databaseVersion: database.database.databaseVersion,
             databaseName: database.database.databaseName,
             databaseSchema: database.database.schema,
             databaseAnnotations: database.database.annotations,
-        });
+        };
+
+        res.send(response);
     });
 };

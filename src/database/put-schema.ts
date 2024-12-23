@@ -7,6 +7,12 @@
 import { IImbricateOrigin, ImbricateAuthor, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabasePutSchemaOutcome, S_Database_PutSchema_Unknown } from "@imbricate/core";
 import express from "express";
 
+export type ImbricateDatabasePutSchemaResponse = {
+
+    readonly databaseUniqueIdentifier: string;
+    readonly databaseVersion: string;
+};
+
 export const attachDatabasePutSchemaRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
@@ -55,9 +61,12 @@ export const attachDatabasePutSchemaRoute = async (
             return;
         }
 
-        res.send({
+        const response: ImbricateDatabasePutSchemaResponse = {
+
             databaseUniqueIdentifier: database.database.uniqueIdentifier,
             databaseVersion: database.database.databaseVersion,
-        });
+        };
+
+        res.send(response);
     });
 };

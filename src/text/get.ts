@@ -59,18 +59,18 @@ export const attachTextGetRoute = async (
 
         const response: ImbricateTextGetResponse = {
             textUniqueIdentifier: text.text.uniqueIdentifier,
-            supportedFeatures: text.text.features,
+            supportedFeatures: text.text.supportedFeatures,
         };
 
         if (checkImbricateTextFeatureSupported(
-            text.text.features,
+            text.text.supportedFeatures,
             IMBRICATE_TEXT_FEATURE.TEXT_GET_AUTHOR,
         )) {
             response.author = text.text.author;
         }
 
         if (checkImbricateTextFeatureSupported(
-            text.text.features,
+            text.text.supportedFeatures,
             IMBRICATE_TEXT_FEATURE.TEXT_GET_CONTENT,
         )) {
             response.content = textContent.content;

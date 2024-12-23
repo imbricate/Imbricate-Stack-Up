@@ -11,6 +11,7 @@ export type ImbricateTextCreateResponse = {
 
     readonly textUniqueIdentifier: string;
     readonly supportedFeatures: IMBRICATE_TEXT_FEATURE[];
+
     author?: ImbricateAuthor;
 };
 
@@ -50,11 +51,11 @@ export const attachTextCreateRoute = async (
 
         const response: ImbricateTextCreateResponse = {
             textUniqueIdentifier: text.text.uniqueIdentifier,
-            supportedFeatures: text.text.features,
+            supportedFeatures: text.text.supportedFeatures,
         };
 
         if (checkImbricateTextFeatureSupported(
-            text.text.features,
+            text.text.supportedFeatures,
             IMBRICATE_TEXT_FEATURE.TEXT_GET_AUTHOR,
         )) {
             response.author = text.text.author;

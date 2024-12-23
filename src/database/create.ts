@@ -4,8 +4,15 @@
  * @description Create
  */
 
-import { IImbricateOrigin, ImbricateAuthor, ImbricateDatabaseManagerCreateDatabaseOutcome, S_DatabaseManager_CreateDatabase_Unknown } from "@imbricate/core";
+import { IImbricateOrigin, IMBRICATE_DATABASE_FEATURE, ImbricateAuthor, ImbricateDatabaseManagerCreateDatabaseOutcome, S_DatabaseManager_CreateDatabase_Unknown } from "@imbricate/core";
 import express from "express";
+
+export type ImbricateDatabaseCreateResponse = {
+
+    readonly databaseUniqueIdentifier: string;
+    readonly databaseVersion: string;
+    readonly supportedFeatures: IMBRICATE_DATABASE_FEATURE[];
+};
 
 export const attachDatabaseCreateRoute = async (
     application: express.Express,
@@ -47,10 +54,14 @@ export const attachDatabaseCreateRoute = async (
                 return;
             }
 
-            res.send({
+            const response: ImbricateDatabaseCreateResponse = {
+
                 databaseUniqueIdentifier: database.database.uniqueIdentifier,
                 databaseVersion: database.database.databaseVersion,
-            });
+                supportedFeatures: database.database.supportedFeatures,
+            };
+
+            res.send(response);
         } catch (error) {
 
             console.error(error);

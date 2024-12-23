@@ -72,7 +72,6 @@ export const attachDocumentPutRoute = async (
             IMBRICATE_DOCUMENT_FEATURE.DOCUMENT_PUT_EDIT_RECORD,
         )) {
 
-            console.log("Add Edit Records", editRecords.editRecords);
             await document.document.addEditRecords(editRecords.editRecords);
         } else {
 

@@ -4,8 +4,17 @@
  * @description Get
  */
 
-import { IImbricateOrigin, ImbricateTextGetContentOutcome, ImbricateTextManagerGetTextOutcome, S_TextManager_GetText_Unknown } from "@imbricate/core";
+import { IImbricateOrigin, IMBRICATE_TEXT_FEATURE, ImbricateAuthor, ImbricateTextGetContentOutcome, ImbricateTextManagerGetTextOutcome, S_TextManager_GetText_Unknown, checkImbricateTextFeatureSupported } from "@imbricate/core";
 import express from "express";
+
+export type ImbricateTextGetResponse = {
+
+    readonly textUniqueIdentifier: string;
+    readonly supportedFeatures: IMBRICATE_TEXT_FEATURE[];
+
+    author?: ImbricateAuthor;
+    content?: string;
+};
 
 export const attachTextGetRoute = async (
     application: express.Express,
@@ -27,9 +36,10 @@ export const attachTextGetRoute = async (
             return;
         }
 
-        const text: ImbricateTextManagerGetTextOutcome = await origin.getTextManager().getText(
-            textUniqueIdentifier,
-        );
+        const text: ImbricateTextManagerGetTextOutcome =
+            await origin.getTextManager().getText(
+                textUniqueIdentifier,
+            );
 
         if (typeof text === "symbol") {
 
@@ -47,10 +57,25 @@ export const attachTextGetRoute = async (
             return;
         }
 
-        res.send({
+        const response: ImbricateTextGetResponse = {
             textUniqueIdentifier: text.text.uniqueIdentifier,
-            author: text.text.author,
-            content: textContent.content,
-        });
+            supportedFeatures: text.text.features,
+        };
+
+        if (checkImbricateTextFeatureSupported(
+            text.text.features,
+            IMBRICATE_TEXT_FEATURE.TEXT_GET_AUTHOR,
+        )) {
+            response.author = text.text.author;
+        }
+
+        if (checkImbricateTextFeatureSupported(
+            text.text.features,
+            IMBRICATE_TEXT_FEATURE.TEXT_GET_CONTENT,
+        )) {
+            response.content = textContent.content;
+        }
+
+        res.send(response);
     });
 };

@@ -4,8 +4,15 @@
  * @description Create
  */
 
-import { IImbricateOrigin, ImbricateAuthor, ImbricateTextManagerCreateTextOutcome, S_TextManager_CreateText_Unknown } from "@imbricate/core";
+import { IImbricateOrigin, IMBRICATE_TEXT_FEATURE, ImbricateAuthor, ImbricateTextManagerCreateTextOutcome, S_TextManager_CreateText_Unknown, checkImbricateTextFeatureSupported } from "@imbricate/core";
 import express from "express";
+
+export type ImbricateTextCreateResponse = {
+
+    readonly textUniqueIdentifier: string;
+    readonly supportedFeatures: IMBRICATE_TEXT_FEATURE[];
+    author?: ImbricateAuthor;
+};
 
 export const attachTextCreateRoute = async (
     application: express.Express,
@@ -41,9 +48,18 @@ export const attachTextCreateRoute = async (
             return;
         }
 
-        res.send({
+        const response: ImbricateTextCreateResponse = {
             textUniqueIdentifier: text.text.uniqueIdentifier,
-            author: text.text.author,
-        });
+            supportedFeatures: text.text.features,
+        };
+
+        if (checkImbricateTextFeatureSupported(
+            text.text.features,
+            IMBRICATE_TEXT_FEATURE.TEXT_GET_AUTHOR,
+        )) {
+            response.author = text.text.author;
+        }
+
+        res.send(response);
     });
 };

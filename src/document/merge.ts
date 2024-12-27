@@ -7,19 +7,19 @@
 import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateAuthor, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentPutPropertyOutcome, S_Document_PutProperty_Unknown, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
 import express from "express";
 
-export type ImbricateDocumentPutResponse = {
+export type ImbricateDocumentMergeResponse = {
 
     readonly documentUniqueIdentifier: string;
     readonly documentVersion: string;
 };
 
-export const attachDocumentPutRoute = async (
+export const attachDocumentMergeRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
     author: ImbricateAuthor,
 ): Promise<void> => {
 
-    application.put("/:origin/database/:database/document/:document", async (req, res) => {
+    application.post("/:origin/database/:database/document/:document/merge", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
         const databaseUniqueIdentifier: string = req.params.database;
@@ -60,7 +60,7 @@ export const attachDocumentPutRoute = async (
         }
 
         const editRecords: ImbricateDocumentPutPropertyOutcome =
-            await document.document.replaceProperties(
+            await document.document.mergeProperties(
                 body.properties,
                 {
                     author,
@@ -85,7 +85,7 @@ export const attachDocumentPutRoute = async (
             console.log("Edit Records Not Supported, skipping");
         }
 
-        const response: ImbricateDocumentPutResponse = {
+        const response: ImbricateDocumentMergeResponse = {
             documentUniqueIdentifier: document.document.uniqueIdentifier,
             documentVersion: document.document.documentVersion,
         };

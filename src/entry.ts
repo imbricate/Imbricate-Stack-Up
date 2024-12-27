@@ -15,6 +15,7 @@ import { StackUpConfig } from "./definition";
 import { attachDocumentCreateRoute } from "./document/create";
 import { attachDocumentGetEditRecordsRoute } from "./document/edit-records";
 import { attachDocumentGetRoute } from "./document/get";
+import { attachDocumentMergeRoute } from "./document/merge";
 import { attachDocumentPutRoute } from "./document/put";
 import { attachDocumentQueryRoute } from "./document/query";
 import { attachSearchSearchRoute } from "./search/search";
@@ -84,6 +85,7 @@ export const createStackUpServer = async (
     attachDocumentGetEditRecordsRoute(application, originMap);
     attachDocumentGetRoute(application, originMap);
     attachDocumentPutRoute(application, originMap, author);
+    attachDocumentMergeRoute(application, originMap, author);
     attachDocumentQueryRoute(application, originMap);
 
     attachSearchSearchRoute(application, originMap);

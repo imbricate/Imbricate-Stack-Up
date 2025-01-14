@@ -71,6 +71,7 @@ export const attachDocumentQueryRoute = async (
 
         res.send({
             documents: response,
+            count: documents.count,
         });
     });
 };

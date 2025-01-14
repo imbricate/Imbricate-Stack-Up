@@ -5,7 +5,6 @@
  */
 
 import { IImbricateOrigin, ImbricateCommonQueryOriginActionsOutcome, ImbricateCommonQueryOriginActionsQuery, ImbricateOriginAction, S_Common_QueryOriginActions_Unknown } from "@imbricate/core";
-import { IETF_LOCALE } from "@sudoo/locale";
 import express from "express";
 
 export const attachOriginQueryQueryActionRoute = async (
@@ -41,9 +40,11 @@ export const attachOriginQueryQueryActionRoute = async (
         const response = {
 
             actions: actions.actions.map((action: ImbricateOriginAction) => {
+
                 return {
                     actionIdentifier: action.actionIdentifier,
-                    actionName: action.getActionName(IETF_LOCALE.ENGLISH_UNITED_STATES),
+                    actionName: action.actionName,
+                    actionDescription: action.actionDescription,
                     parameters: action.parameters,
                     appearance: action.appearance,
                     disabled: action.disabled,

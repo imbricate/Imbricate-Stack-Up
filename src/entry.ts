@@ -9,8 +9,8 @@ import cors from "cors";
 import express from "express";
 import { attachDatabaseCreateRoute } from "./database/create";
 import { attachDatabaseGetRoute } from "./database/get";
-import { attachDatabaseListRoute } from "./database/list";
 import { attachDatabasePutSchemaRoute } from "./database/put-schema";
+import { attachDatabaseQueryRoute } from "./database/query";
 import { StackUpConfig } from "./definition";
 import { attachDocumentCreateRoute } from "./document/create";
 import { attachDocumentGetEditRecordsRoute } from "./document/edit-records";
@@ -76,10 +76,10 @@ export const createStackUpServer = async (
         next();
     });
 
-    attachDatabaseListRoute(application, originMap);
     attachDatabaseGetRoute(application, originMap);
     attachDatabaseCreateRoute(application, originMap, author);
     attachDatabasePutSchemaRoute(application, originMap, author);
+    attachDatabaseQueryRoute(application, originMap);
 
     attachDocumentCreateRoute(application, originMap, author);
     attachDocumentGetEditRecordsRoute(application, originMap);

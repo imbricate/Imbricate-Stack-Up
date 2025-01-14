@@ -1,13 +1,13 @@
 /**
  * @author WMXPY
  * @namespace Database
- * @description List
+ * @description Query
  */
 
-import { DatabaseAnnotations, IImbricateDatabase, IImbricateOrigin, IMBRICATE_DATABASE_FEATURE, ImbricateDatabaseManagerListDatabasesOutcome, ImbricateDatabaseSchema, S_DatabaseManager_ListDatabases_Unknown } from "@imbricate/core";
+import { DatabaseAnnotations, IImbricateDatabase, IImbricateOrigin, IMBRICATE_DATABASE_FEATURE, ImbricateDatabaseManagerQueryDatabasesOutcome, ImbricateDatabaseQuery, ImbricateDatabaseSchema, S_DatabaseManager_QueryDatabases_Unknown } from "@imbricate/core";
 import express from "express";
 
-export type ImbricateDatabaseListResponse = {
+export type ImbricateDatabaseQueryResponse = {
 
     readonly databases: {
         readonly supportedFeatures: IMBRICATE_DATABASE_FEATURE[];
@@ -18,16 +18,18 @@ export type ImbricateDatabaseListResponse = {
         readonly databaseSchema: ImbricateDatabaseSchema;
         readonly databaseAnnotations: DatabaseAnnotations;
     }[];
+    readonly count: number;
 };
 
-export const attachDatabaseListRoute = async (
+export const attachDatabaseQueryRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
 ): Promise<void> => {
 
-    application.get("/:origin/list-database", async (req, res) => {
+    application.post("/:origin/query-database", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
+        const body: any = req.body;
 
         const origin: IImbricateOrigin | null =
             originMap.get(originUniqueIdentifier) ?? null;
@@ -35,11 +37,12 @@ export const attachDatabaseListRoute = async (
         if (!origin) {
 
             console.error("Origin Not Found", originUniqueIdentifier);
-            res.status(404).send(S_DatabaseManager_ListDatabases_Unknown.description);
+            res.status(404).send(S_DatabaseManager_QueryDatabases_Unknown.description);
             return;
         }
 
-        const databases: ImbricateDatabaseManagerListDatabasesOutcome = await origin.getDatabaseManager().listDatabases();
+        const query: ImbricateDatabaseQuery = body.query ?? {};
+        const databases: ImbricateDatabaseManagerQueryDatabasesOutcome = await origin.getDatabaseManager().queryDatabases(query);
 
         if (typeof databases === "symbol") {
 
@@ -48,7 +51,7 @@ export const attachDatabaseListRoute = async (
             return;
         }
 
-        const response: ImbricateDatabaseListResponse = {
+        const response: ImbricateDatabaseQueryResponse = {
             databases: databases.databases.map((database: IImbricateDatabase) => {
                 return {
                     supportedFeatures: database.supportedFeatures,
@@ -59,6 +62,7 @@ export const attachDatabaseListRoute = async (
                     databaseAnnotations: database.annotations,
                 };
             }),
+            count: databases.count,
         };
 
         res.send(response);

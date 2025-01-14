@@ -4,7 +4,7 @@
  * @description Query
  */
 
-import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabaseQueryDocumentsOutcome, S_Database_QueryDocuments_Unknown } from "@imbricate/core";
+import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabaseQueryDocumentsOutcome, ImbricateDocumentQuery, S_Database_QueryDocuments_Unknown } from "@imbricate/core";
 import express from "express";
 import { ImbricateDocumentGetResponse } from "./get";
 
@@ -46,7 +46,8 @@ export const attachDocumentQueryRoute = async (
             return;
         }
 
-        const documents: ImbricateDatabaseQueryDocumentsOutcome = await database.database.queryDocuments(body.query);
+        const query: ImbricateDocumentQuery = body.query ?? {};
+        const documents: ImbricateDatabaseQueryDocumentsOutcome = await database.database.queryDocuments(query);
 
         if (typeof documents === "symbol") {
 

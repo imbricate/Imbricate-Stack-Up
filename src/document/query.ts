@@ -6,6 +6,7 @@
 
 import { IImbricateOrigin, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDatabaseQueryDocumentsOutcome, ImbricateDocumentQuery, S_Database_QueryDocuments_Unknown } from "@imbricate/core";
 import express from "express";
+import { recordToInstanceRecord } from "../common/properties";
 import { ImbricateDocumentGetResponse } from "./get";
 
 export type ImbricateDocumentQueryResponse = {
@@ -60,11 +61,20 @@ export const attachDocumentQueryRoute = async (
 
         for (const document of documents.documents) {
 
+            const properties = document.getProperties();
+
+            if (typeof properties === "symbol") {
+
+                console.error("Properties Not Found", properties);
+                res.status(500).send(properties.description);
+                return;
+            }
+
             response.push({
                 supportedFeatures: document.supportedFeatures,
                 documentUniqueIdentifier: document.uniqueIdentifier,
                 documentVersion: document.documentVersion,
-                properties: document.properties,
+                properties: recordToInstanceRecord(properties.properties),
                 annotations: document.annotations,
             });
         }

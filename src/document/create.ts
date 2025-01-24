@@ -4,8 +4,9 @@
  * @description Create
  */
 
-import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateAuthor, ImbricateDatabaseCreateDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_CreateDocument_Unknown } from "@imbricate/core";
+import { IImbricateOrigin, IImbricateProperty, IMBRICATE_DOCUMENT_FEATURE, IMBRICATE_PROPERTY_TYPE, ImbricateAuthor, ImbricateDatabaseCreateDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_CreateDocument_Unknown } from "@imbricate/core";
 import express from "express";
+import { DocumentPropertyInstance } from "../common/properties";
 
 export type ImbricateDocumentCreateResponse = {
 
@@ -49,7 +50,19 @@ export const attachDocumentCreateRoute = async (
 
         try {
             const document: ImbricateDatabaseCreateDocumentOutcome = await database.database.createDocument(
-                body.properties,
+                (generator) => {
+
+                    const result: IImbricateProperty<IMBRICATE_PROPERTY_TYPE>[] = [];
+
+                    Object.entries(body.properties).forEach(([key, value]) => {
+
+                        const fixedValue = value as DocumentPropertyInstance;
+
+                        result.push(generator(key, fixedValue.type, fixedValue.value));
+                    });
+
+                    return result;
+                },
                 {
                     author,
                 },

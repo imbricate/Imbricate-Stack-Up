@@ -4,8 +4,9 @@
  * @description Put
  */
 
-import { IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateAuthor, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentPutPropertyOutcome, S_Document_PutProperty_Unknown, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
+import { IImbricateOrigin, IImbricateProperty, IMBRICATE_DOCUMENT_FEATURE, IMBRICATE_PROPERTY_TYPE, ImbricateAuthor, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, ImbricateDocumentPutPropertyOutcome, S_Document_PutProperty_Unknown, checkImbricateDocumentFeatureSupported } from "@imbricate/core";
 import express from "express";
+import { DocumentPropertyInstance } from "../common/properties";
 
 export type ImbricateDocumentMergeResponse = {
 
@@ -61,7 +62,19 @@ export const attachDocumentMergeRoute = async (
 
         const editRecords: ImbricateDocumentPutPropertyOutcome =
             await document.document.mergeProperties(
-                body.properties,
+                (generator) => {
+
+                    const result: IImbricateProperty<IMBRICATE_PROPERTY_TYPE>[] = [];
+
+                    Object.entries(body.properties).forEach(([key, value]) => {
+
+                        const fixedValue = value as DocumentPropertyInstance;
+
+                        result.push(generator(key, fixedValue.type, fixedValue.value));
+                    });
+
+                    return result;
+                },
                 {
                     author,
                 },

@@ -4,8 +4,9 @@
  * @description Get
  */
 
-import { DocumentAnnotations, DocumentProperties, IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_GetDocument_Unknown } from "@imbricate/core";
+import { DocumentAnnotations, IImbricateOrigin, IMBRICATE_DOCUMENT_FEATURE, ImbricateDatabaseGetDocumentOutcome, ImbricateDatabaseManagerGetDatabaseOutcome, S_Database_GetDocument_Unknown } from "@imbricate/core";
 import express from "express";
+import { DocumentPropertyInstanceRecord, recordToInstanceRecord } from "../common/properties";
 
 export type ImbricateDocumentGetResponse = {
 
@@ -13,7 +14,7 @@ export type ImbricateDocumentGetResponse = {
 
     readonly documentUniqueIdentifier: string;
     readonly documentVersion: string;
-    readonly properties: DocumentProperties;
+    readonly properties: DocumentPropertyInstanceRecord;
     readonly annotations: DocumentAnnotations;
 };
 
@@ -60,11 +61,20 @@ export const attachDocumentGetRoute = async (
             return;
         }
 
+        const properties = document.document.getProperties();
+
+        if (typeof properties === "symbol") {
+
+            console.error("Failed to get properties", properties);
+            res.status(500).send(properties.description);
+            return;
+        }
+
         const response: ImbricateDocumentGetResponse = {
             supportedFeatures: document.document.supportedFeatures,
             documentUniqueIdentifier: document.document.uniqueIdentifier,
             documentVersion: document.document.documentVersion,
-            properties: document.document.properties,
+            properties: recordToInstanceRecord(properties.properties),
             annotations: document.document.annotations,
         };
 

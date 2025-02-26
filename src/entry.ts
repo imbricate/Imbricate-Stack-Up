@@ -20,6 +20,7 @@ import { attachDocumentPutRoute } from "./document/put";
 import { attachDocumentQueryRoute } from "./document/query";
 import { attachSearchSearchRoute } from "./search/search";
 import { attachStaticCreateBase64Route } from "./static/create-base64";
+import { attachStaticGetRoute } from "./static/get";
 import { attachStaticGetBase64Route } from "./static/get-base64";
 import { attachTextCreateRoute } from "./text/create";
 import { attachTextGetRoute } from "./text/get";
@@ -94,6 +95,7 @@ export const createStackUpServer = async (
 
     attachStaticCreateBase64Route(application, originMap, author);
     attachStaticGetBase64Route(application, originMap);
+    attachStaticGetRoute(application, originMap);
 
     attachTextCreateRoute(application, originMap, author);
     attachTextGetRoute(application, originMap);

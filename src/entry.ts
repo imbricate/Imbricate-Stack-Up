@@ -19,6 +19,8 @@ import { attachDocumentMergeRoute } from "./document/merge";
 import { attachDocumentPutRoute } from "./document/put";
 import { attachDocumentQueryRoute } from "./document/query";
 import { attachSearchSearchRoute } from "./search/search";
+import { attachStaticCreateBase64Route } from "./static/create-base64";
+import { attachStaticGetBase64Route } from "./static/get-base64";
 import { attachTextCreateRoute } from "./text/create";
 import { attachTextGetRoute } from "./text/get";
 import { loadOriginsFromConfig } from "./util/load";
@@ -89,6 +91,9 @@ export const createStackUpServer = async (
     attachDocumentQueryRoute(application, originMap);
 
     attachSearchSearchRoute(application, originMap);
+
+    attachStaticCreateBase64Route(application, originMap, author);
+    attachStaticGetBase64Route(application, originMap);
 
     attachTextCreateRoute(application, originMap, author);
     attachTextGetRoute(application, originMap);

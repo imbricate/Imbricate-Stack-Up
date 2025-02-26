@@ -61,7 +61,9 @@ export const createStackUpServer = async (
     }
 
     const application = express();
-    application.use(json());
+    application.use(json({
+        limit: "64mb",
+    }));
     application.use(cors({
         origin: corsAllowList,
     }));

@@ -14,6 +14,7 @@ export type ImbricateStaticGetBase64Response = {
 
     author?: ImbricateAuthor;
     content?: string;
+    mimeType?: string;
 };
 
 export const attachStaticGetBase64Route = async (
@@ -74,6 +75,7 @@ export const attachStaticGetBase64Route = async (
             IMBRICATE_STATIC_FEATURE.STATIC_GET_CONTENT,
         )) {
             response.content = staticContent.content;
+            response.mimeType = staticInstance.static.mimeType;
         }
 
         res.send(response);

@@ -72,6 +72,13 @@ export const createStackUpServer = async (
 
         console.log(req.method, req.url);
 
+        if (req.query.authentication === authenticationSecret) {
+
+            console.log("Authorized by Query");
+            next();
+            return;
+        }
+
         if (req.headers.authorization !== `Bearer ${authenticationSecret}`) {
 
             console.log(`Unauthorized: ${req.headers.authorization}`);

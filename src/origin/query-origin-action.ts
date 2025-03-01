@@ -7,12 +7,12 @@
 import { IImbricateOrigin, IMBRICATE_ORIGIN_FEATURE, ImbricateCommonQueryOriginActionsOutcome, ImbricateCommonQueryOriginActionsQuery, ImbricateOriginAction, S_Common_QueryOriginActions_Unknown, checkImbricateOriginFeatureSupported } from "@imbricate/core";
 import express from "express";
 
-export const attachOriginQueryQueryActionRoute = async (
+export const attachOriginQueryOriginActionsRoute = async (
     application: express.Express,
     originMap: Map<string, IImbricateOrigin>,
 ): Promise<void> => {
 
-    application.post("/:origin/query-origin-action", async (req, res) => {
+    application.post("/:origin/query-origin-actions", async (req, res) => {
 
         const originUniqueIdentifier: string = req.params.origin;
         const body: any = req.body;

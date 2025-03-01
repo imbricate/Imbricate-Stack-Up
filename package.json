@@ -1,7 +1,7 @@
 {
   "name": "@imbricate/stack-up",
   "packageManager": "yarn@4.6.0",
-  "version": "1.15.2",
+  "version": "1.16.0",
   "description": "File System Origin Implementation for Imbricate",
   "scripts": {
     "test": "jest",

@@ -8,9 +8,11 @@ import { json } from "body-parser";
 import cors from "cors";
 import express from "express";
 import { attachDatabaseCreateRoute } from "./database/create";
+import { attachDatabaseExecuteOriginActionRoute } from "./database/execute-origin-action";
 import { attachDatabaseGetRoute } from "./database/get";
 import { attachDatabasePutSchemaRoute } from "./database/put-schema";
 import { attachDatabaseQueryRoute } from "./database/query";
+import { attachDatabaseQueryOriginActionsRoute } from "./database/query-origin-action";
 import { StackUpConfig } from "./definition";
 import { attachDocumentCreateRoute } from "./document/create";
 import { attachDocumentGetEditRecordsRoute } from "./document/edit-records";
@@ -94,6 +96,8 @@ export const createStackUpServer = async (
     attachDatabaseCreateRoute(application, originMap, author);
     attachDatabasePutSchemaRoute(application, originMap, author);
     attachDatabaseQueryRoute(application, originMap);
+    attachDatabaseQueryOriginActionsRoute(application, originMap);
+    attachDatabaseExecuteOriginActionRoute(application, originMap);
 
     attachDocumentCreateRoute(application, originMap, author);
     attachDocumentGetEditRecordsRoute(application, originMap);
@@ -102,8 +106,8 @@ export const createStackUpServer = async (
     attachDocumentMergeRoute(application, originMap, author);
     attachDocumentQueryRoute(application, originMap);
 
-    attachOriginExecuteOriginActionRoute(application, originMap);
     attachOriginQueryOriginActionsRoute(application, originMap);
+    attachOriginExecuteOriginActionRoute(application, originMap);
 
     attachSearchSearchRoute(application, originMap);
 

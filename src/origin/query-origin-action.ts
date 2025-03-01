@@ -4,7 +4,7 @@
  * @description Query Origin Action
  */
 
-import { IImbricateOrigin, ImbricateCommonQueryOriginActionsOutcome, ImbricateCommonQueryOriginActionsQuery, ImbricateOriginAction, S_Common_QueryOriginActions_Unknown } from "@imbricate/core";
+import { IImbricateOrigin, IMBRICATE_ORIGIN_FEATURE, ImbricateCommonQueryOriginActionsOutcome, ImbricateCommonQueryOriginActionsQuery, ImbricateOriginAction, S_Common_QueryOriginActions_Unknown, checkImbricateOriginFeatureSupported } from "@imbricate/core";
 import express from "express";
 
 export const attachOriginQueryQueryActionRoute = async (
@@ -27,6 +27,16 @@ export const attachOriginQueryQueryActionRoute = async (
             return;
         }
 
+        if (!checkImbricateOriginFeatureSupported(
+            origin.supportedFeatures,
+            IMBRICATE_ORIGIN_FEATURE.ORIGIN_GET_ORIGIN_ACTIONS,
+        )) {
+
+            console.error("Origin Not Supported", originUniqueIdentifier);
+            res.status(404).send(S_Common_QueryOriginActions_Unknown.description);
+            return;
+        }
+
         const query: ImbricateCommonQueryOriginActionsQuery = body.query ?? {};
         const actions: ImbricateCommonQueryOriginActionsOutcome = await origin.queryOriginActions(query);
 
@@ -39,10 +49,14 @@ export const attachOriginQueryQueryActionRoute = async (
 
         const response = {
 
-            actions: actions.actions.map((action: ImbricateOriginAction) => {
+            actions: actions.actions.map((
+                action: ImbricateOriginAction,
+            ) => {
 
                 return {
+
                     actionIdentifier: action.actionIdentifier,
+                    defaultLocale: action.defaultLocale,
                     actionName: action.actionName,
                     actionDescription: action.actionDescription,
                     parameters: action.parameters,

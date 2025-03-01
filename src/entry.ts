@@ -16,10 +16,12 @@ import { attachDatabaseQueryOriginActionsRoute } from "./database/query-origin-a
 import { StackUpConfig } from "./definition";
 import { attachDocumentCreateRoute } from "./document/create";
 import { attachDocumentGetEditRecordsRoute } from "./document/edit-records";
+import { attachDocumentExecuteOriginActionRoute } from "./document/execute-origin-action";
 import { attachDocumentGetRoute } from "./document/get";
 import { attachDocumentMergeRoute } from "./document/merge";
 import { attachDocumentPutRoute } from "./document/put";
 import { attachDocumentQueryRoute } from "./document/query";
+import { attachDocumentQueryOriginActionsRoute } from "./document/query-origin-action";
 import { attachOriginExecuteOriginActionRoute } from "./origin/execute-origin-action";
 import { attachOriginQueryOriginActionsRoute } from "./origin/query-origin-action";
 import { attachSearchSearchRoute } from "./search/search";
@@ -105,6 +107,8 @@ export const createStackUpServer = async (
     attachDocumentPutRoute(application, originMap, author);
     attachDocumentMergeRoute(application, originMap, author);
     attachDocumentQueryRoute(application, originMap);
+    attachDocumentQueryOriginActionsRoute(application, originMap);
+    attachDocumentExecuteOriginActionRoute(application, originMap);
 
     attachOriginQueryOriginActionsRoute(application, originMap);
     attachOriginExecuteOriginActionRoute(application, originMap);

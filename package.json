@@ -10,6 +10,7 @@
     "clean": "rm -rf app",
     "build": "tsc --project typescript/tsconfig.build.json",
     "license": "sdb license",
+    "lock-dedupe": "yarn dedupe --strategy highest",
     "add-bin": "ts-node --project typescript/tsconfig.script.json scripts/add-bin.ts",
     "replace-version": "ts-node --project typescript/tsconfig.script.json scripts/replace-version.ts",
     "release": "yarn lint && yarn test && yarn license && yarn build && yarn replace-version && yarn add-bin",

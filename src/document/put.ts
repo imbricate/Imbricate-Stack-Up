@@ -70,7 +70,7 @@ export const attachDocumentPutRoute = async (
 
                         const fixedValue = value as DocumentPropertyInstance;
 
-                        result.push(generator(key, fixedValue.type, fixedValue.value));
+                        result.push(generator(key, fixedValue.type, fixedValue.value, fixedValue.variant));
                     });
 
                     return result;
